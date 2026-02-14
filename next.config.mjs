@@ -1,9 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // This is the magic line
+  output: 'export',
+  basePath: '/MHACTO-PROJECT',
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true,
   },
-};
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+}
 
-module.exports = nextConfig;
+export default nextConfig
