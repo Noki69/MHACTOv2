@@ -1,3 +1,5 @@
+import { asset } from "@/lib/utils"
+
 // ─── Types ─────────────────────────────────────────────────────────
 export type ContentLabel =
   | "historical"
@@ -166,7 +168,7 @@ export const MOCK_POSTS: CMSPost[] = [
     body: "The annual Bocaue River Festival is set to return this July with more grandeur than ever. The festival, which commemorates the Cross of Bocaue, will feature a fluvial parade, fireworks, and cultural performances. Join us in celebrating Bocaue's most beloved tradition!\n\nThis year's celebration will include new activities such as a food festival showcasing local delicacies, an artisan market, and a historical exhibit at the Old Town Plaza. The festivities will run from July 1-7, 2026.",
     label: "festival",
     status: "published",
-    image: ["/images/places/river-festival.jpg"],
+    image: [asset("/images/places/river-festival.jpg")],
     location: "Bocaue River, Bulacan",
     hours: "Annual event — First week of July",
     contact: "Municipal Tourism Office",
@@ -183,7 +185,7 @@ export const MOCK_POSTS: CMSPost[] = [
     body: "The ongoing restoration of St. Martin of Tours Parish Church is progressing well. The centuries-old structure, a cornerstone of Bocaue's heritage, is being carefully restored to preserve its Spanish colonial architecture while ensuring structural integrity for generations to come.\n\nPhase 2 of the restoration, focusing on the bell tower and facade, is expected to be completed by March 2026. Visitors are welcome to view the progress from the designated viewing area.",
     label: "historical",
     status: "published",
-    image: ["/images/places/church-bocaue.jpg"],
+    image: [asset("/images/places/church-bocaue.jpg")],
     location: "Bocaue Town Center, Bulacan",
     hours: "Daily: 6:00 AM – 8:00 PM",
     contact: "(044) 123-4567",
@@ -226,7 +228,7 @@ export const MOCK_POSTS: CMSPost[] = [
     body: "Bocaue is not only known for its fireworks and festivals but also for its rich culinary heritage. From the famous chicharon to traditional kakanin, our town offers a diverse palette of flavors waiting to be discovered.\n\nJoin our monthly food tour every first Saturday to explore the best of Bocaue's local cuisine.",
     label: "blog",
     status: "published",
-    image: ["/images/places/local-delicacies.jpg"],
+    image: [asset("/images/places/local-delicacies.jpg")],
     location: "Various locations, Bocaue",
     hours: "Monthly — Every first Saturday",
     category: "Cuisine",

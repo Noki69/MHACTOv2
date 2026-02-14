@@ -1,7 +1,9 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
 import { Facebook, Instagram } from "lucide-react"
+import { asset } from "@/lib/utils"
 
 export function Footer() {
   return (
@@ -13,7 +15,7 @@ export function Footer() {
             <div className="flex items-center">
               <div className="relative h-10 w-auto">
                 <Image
-                  src="/images/logos/MHACTO_LOGO.png"
+                  src={asset("/images/logos/MHACTO_LOGO.png")}
                   alt="MHACTO Bocaue Logo"
                   width={250}
                   height={100}
@@ -34,24 +36,24 @@ export function Footer() {
             <h4 className="text-sm font-semibold uppercase tracking-widest text-card/50">
               Quick Links
             </h4>
-            <a
-              href="#home"
+            <Link
+              href="/#home"
               className="text-sm text-card/70 transition-colors hover:text-card"
             >
               Home
-            </a>
-            <a
-              href="#attractions"
+            </Link>
+            <Link
+              href="/#attractions"
               className="text-sm text-card/70 transition-colors hover:text-card"
             >
               Attractions
-            </a>
-            <a
+            </Link>
+            <Link
               href="/inquire"
               className="text-sm text-card/70 transition-colors hover:text-card"
             >
               Inquiry
-            </a>
+            </Link>
             <a
               href="#"
               className="text-sm text-card/70 transition-colors hover:text-card"
@@ -64,12 +66,12 @@ export function Footer() {
             >
               Terms of Use
             </a>
-            <a
+            <Link
               href="/admin"
               className="text-sm text-card/70 transition-colors hover:text-card"
             >
               Admin Portal
-            </a>
+            </Link>
           </div>
 
           {/* Social */}
@@ -102,7 +104,7 @@ export function Footer() {
             {/* Left side - Bocaue */}
             <div className="flex items-center gap-3 text-center sm:text-left">
               <Image
-                src="/images/logos/bocaue-logo.svg"
+                src={asset("/images/logos/bocaue-logo.svg")}
                 alt="Bocaue Logo"
                 width={50}
                 height={50}
@@ -122,7 +124,7 @@ export function Footer() {
                 <p className="text-xs">Developed by Flores, Vissnar, Borja & Chingcuangco</p>
               </div>
               <Image
-                src="/images/logos/sti-logo.svg"
+                src={asset("/images/logos/sti-logo.svg")}
                 alt="STI College Balagtas Logo"
                 width={50}
                 height={50}

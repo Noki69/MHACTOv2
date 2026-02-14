@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { useAdmin } from "@/components/providers/admin-provider"
@@ -285,12 +286,12 @@ export default function DashboardPage() {
                   <CardTitle className="text-base font-semibold">
                     Recent Activity
                   </CardTitle>
-                  <a
+                  <Link
                     href="/admin/activity-log"
                     className="flex items-center gap-1 text-xs font-medium text-primary hover:underline"
                   >
                     View all <ArrowUpRight className="h-3 w-3" />
-                  </a>
+                  </Link>
                 </div>
               </CardHeader>
               <CardContent>

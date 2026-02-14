@@ -1,3 +1,5 @@
+import { asset } from "@/lib/utils"
+
 export type PlaceCategory =
   | "heritage"
   | "nature"
@@ -36,7 +38,7 @@ export const attractions: Place[] = [
     title: "Philippine Arena",
     description:
       "The world's largest indoor arena, a marvel of modern architecture located right in Bocaue.",
-    image: "/images/places/philippine-arena.jpg",
+    image: asset("/images/places/philippine-arena.jpg"),
     fullDescription:
       "The Philippine Arena is the world's largest indoor arena, capable of seating up to 55,000 people. This architectural marvel stands as a testament to modern engineering and Filipino excellence. Located in Bocaue, Bulacan, it hosts major concerts, sports events, and cultural celebrations.",
     story:
@@ -58,7 +60,7 @@ export const attractions: Place[] = [
     title: "St. Martin of Tours Church",
     description:
       "A historic Spanish-era church reflecting centuries of faith and Filipino heritage.",
-    image: "/images/places/church-bocaue.jpg",
+    image: asset("/images/places/church-bocaue.jpg"),
     fullDescription:
       "St. Martin of Tours Church is a historic Spanish-era church that has stood for centuries as a symbol of faith and Filipino heritage. Built during the colonial period, this beautiful church features classic Spanish architecture with intricate details.",
     story:
@@ -80,7 +82,7 @@ export const attractions: Place[] = [
     title: "Bocaue River Festival",
     description:
       "A vibrant annual celebration featuring the iconic fluvial parade along the river.",
-    image: "/images/places/river-festival.jpg",
+    image: asset("/images/places/river-festival.jpg"),
     fullDescription:
       "The Bocaue River Festival is an annual religious and cultural celebration held every July. The highlight is the spectacular fluvial parade where beautifully decorated boats carry the image of the Holy Cross along the Bocaue River.",
     story:
@@ -102,7 +104,7 @@ export const attractions: Place[] = [
     title: "Bocaue Chicharon & Kakanin",
     description:
       "Taste authentic Bulacan cuisine from traditional kakanin to the legendary crispy chicharon.",
-    image: "/images/places/local-delicacies.jpg",
+    image: asset("/images/places/local-delicacies.jpg"),
     fullDescription:
       "Bocaue is famous for its authentic Bulacan cuisine, particularly its traditional kakanin (rice cakes) and crispy chicharon. Local delicacies include suman, bibingka, puto, and the renowned Bocaue chicharon.",
     story:
@@ -124,7 +126,7 @@ export const attractions: Place[] = [
     title: "Bocaue Riverbank & Nature Walk",
     description:
       "A scenic walk along the historic Bocaue River, where nature meets centuries of town history.",
-    image: "/images/heroes/hero-bocaue.jpg",
+    image: asset("/images/heroes/hero-bocaue.jpg"),
     fullDescription:
       "The Bocaue Riverbank offers a tranquil escape from city life. Walk along the shaded pathways beside the river that has shaped the town's identity for centuries, from fishing and trade to religious processions.",
     story:
@@ -146,7 +148,7 @@ export const attractions: Place[] = [
     title: "Bocaue Artisan Crafts & Fireworks",
     description:
       "Discover the art of handmade fireworks and traditional crafts that have defined Bocaue for generations.",
-    image: "/images/places/fireworks.jpg",
+    image: asset("/images/places/fireworks.jpg"),
     fullDescription:
       "Bocaue has a long tradition of artisan craftsmanship, most notably in pyrotechnics (fireworks making) and handmade crafts. The town's skilled artisans have been creating fireworks for festivals and celebrations for centuries.",
     story:
@@ -168,7 +170,7 @@ export const attractions: Place[] = [
     title: "Bocaue Old Town Plaza",
     description:
       "The historic heart of the town — a tree-lined plaza that has witnessed centuries of community life.",
-    image: "/images/places/oldtownbocaue.jpg",
+    image: asset("/images/places/oldtownbocaue.jpg"),
     fullDescription:
       "The Bocaue Old Town Plaza sits at the center of the town, adjacent to St. Martin of Tours Church. This public square has served as a gathering place for rest, celebrations, and civic life since the Spanish colonial period.",
     story:
@@ -190,7 +192,7 @@ export const attractions: Place[] = [
     title: "Ciudad de Victoria",
     description:
       "A sprawling mixed-use development that is home to the Philippine Arena, Sports Stadium, and cultural venues.",
-    image: "/images/places/philippine-arena.jpg",
+    image: asset("/images/places/philippine-arena.jpg"),
     fullDescription:
       "Ciudad de Victoria is a 140-hectare master-planned development straddling the border of Bocaue and Santa Maria. It houses the Philippine Arena, the Philippine Sports Stadium, an aquatic center, and various commercial and residential facilities.",
     story:
@@ -207,7 +209,7 @@ export const attractions: Place[] = [
       "Major economic and tourism driver for the region",
     ],
   },
-] as const
+]
 
 export interface EventItem {
   id: string
@@ -232,7 +234,7 @@ export const featuredEvents: EventItem[] = [
       "Experience the grandest fluvial parade yet! The 2026 Bocaue River Festival celebrates centuries of faith and tradition with spectacular boat processions, cultural performances, street dancing, fireworks, and a week-long carnival along the historic Bocaue River. This year's theme honors the resilience and unity of the Bocaueño community.",
     date: createDate(2026, 7, 3),
     location: "Bocaue River & Town Center",
-    image: "/images/places/river-festival.jpg",
+    image: asset("/images/places/river-festival.jpg"),
     isSpotlight: true,
   },
   {
@@ -242,7 +244,7 @@ export const featuredEvents: EventItem[] = [
       "Join the iconic fluvial parade and cultural festivities along the Bocaue River. A week-long celebration of faith and tradition.",
     date: createDate(2025, 7, 4),
     location: "Bocaue River",
-    image: "/images/places/river-festival.jpg",
+    image: asset("/images/places/river-festival.jpg"),
   },
   {
     id: "arena-concert",
@@ -251,7 +253,7 @@ export const featuredEvents: EventItem[] = [
       "Experience world-class entertainment at the largest indoor arena. Special performances and cultural shows.",
     date: createDate(2025, 3, 15),
     location: "Philippine Arena",
-    image: "/images/places/philippine-arena.jpg",
+    image: asset("/images/places/philippine-arena.jpg"),
   },
   {
     id: "heritage-walk",

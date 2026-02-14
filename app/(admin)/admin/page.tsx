@@ -6,6 +6,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Eye, EyeOff, Lock, Mail } from "lucide-react"
 import { useAdmin } from "@/components/providers/admin-provider"
+import { asset } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -68,7 +69,7 @@ export default function AdminLoginPage() {
           <div className="mb-10 flex flex-col items-center text-center lg:items-start lg:text-left">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 p-2 shadow-lg">
               <Image
-                src="/images/logos/MHACTO_LOGO.png"
+                src={asset("/images/logos/MHACTO_LOGO.png")}
                 alt="MHACTO Logo"
                 width={52}
                 height={52}
@@ -168,7 +169,7 @@ export default function AdminLoginPage() {
       {/* Right side — Image */}
       <div className="relative hidden lg:block lg:w-1/2">
         <Image
-          src="/images/heroes/hero-bocaue.jpg"
+          src={asset("/images/heroes/hero-bocaue.jpg")}
           alt="Bocaue, Bulacan"
           fill
           className="object-cover"

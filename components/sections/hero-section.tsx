@@ -6,10 +6,11 @@ import Image from "next/image"
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { asset } from "@/lib/utils"
 
 const heroSlides = [
   {
-    src: "/images/heroes/hero-bocaue.jpg",
+    src: asset("/images/heroes/hero-bocaue.jpg"),
     alt: "Scenic view of Bocaue, Bulacan",
     subtitle: "Municipal History, Arts, Culture & Tourism Office",
     title: "Discover the Heart of",
@@ -19,7 +20,7 @@ const heroSlides = [
     href: "/places",
   },
   {
-    src: "/images/places/church-bocaue.jpg",
+    src: asset("/images/places/church-bocaue.jpg"),
     alt: "St. Martin of Tours Parish Church",
     subtitle: "Heritage & Faith",
     title: "St. Martin of Tours",
@@ -29,7 +30,7 @@ const heroSlides = [
     href: "/places/st-martin-church",
   },
   {
-    src: "/images/places/river-festival.jpg",
+    src: asset("/images/places/river-festival.jpg"),
     alt: "Bocaue River Festival",
     subtitle: "Festivals & Traditions",
     title: "The Grand",
@@ -39,7 +40,7 @@ const heroSlides = [
     href: "/places/bocaue-river-festival",
   },
   {
-    src: "/images/places/philippine-arena.jpg",
+    src: asset("/images/places/philippine-arena.jpg"),
     alt: "Philippine Arena",
     subtitle: "Modern Landmarks",
     title: "The Iconic",
@@ -49,7 +50,7 @@ const heroSlides = [
     href: "/places/philippine-arena",
   },
   {
-    src: "/images/places/fireworks.jpg",
+    src: asset("/images/places/fireworks.jpg"),
     alt: "Fireworks in Bocaue",
     subtitle: "The Fireworks Capital",
     title: "Bocaue's Famous",

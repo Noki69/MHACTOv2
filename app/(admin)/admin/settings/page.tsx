@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useAdmin } from "@/components/providers/admin-provider"
+import { asset } from "@/lib/utils"
 import { AdminSidebar } from "@/components/layout/admin-sidebar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -79,7 +80,7 @@ export default function SettingsPage() {
               <div className="flex items-center gap-4">
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10">
                   <Image
-                    src="/images/logos/MHACTO_LOGO.png"
+                    src={asset("/images/logos/MHACTO_LOGO.png")}
                     alt="Admin"
                     width={48}
                     height={48}
