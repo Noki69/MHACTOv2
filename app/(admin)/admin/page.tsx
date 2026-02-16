@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { motion } from "framer-motion"
 import { Eye, EyeOff, Lock, Mail } from "lucide-react"
 import { useAdmin } from "@/components/providers/admin-provider"
 import { asset } from "@/lib/utils"
@@ -59,12 +58,7 @@ export default function AdminLoginPage() {
           />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative z-10 mx-auto w-full max-w-md"
-        >
+        <div className="relative z-10 mx-auto w-full max-w-md animate-fade-in-up">
           {/* Logo & heading */}
           <div className="mb-10 flex flex-col items-center text-center lg:items-start lg:text-left">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 p-2 shadow-lg">
@@ -111,7 +105,7 @@ export default function AdminLoginPage() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -132,13 +126,9 @@ export default function AdminLoginPage() {
             </div>
 
             {error && (
-              <motion.p
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-red-400"
-              >
+              <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-red-400 animate-fade-in-up">
                 {error}
-              </motion.p>
+              </p>
             )}
 
             <Button
@@ -147,7 +137,7 @@ export default function AdminLoginPage() {
               size="lg"
               disabled={loading}
             >
-              {loading ? "Signing in…" : "Sign In"}
+              {loading ? "Signing in\u2026" : "Sign In"}
             </Button>
           </form>
 
@@ -161,9 +151,9 @@ export default function AdminLoginPage() {
           </div>
 
           <p className="mt-8 text-center text-xs text-slate-600 lg:text-left">
-            &copy; {new Date().getFullYear()} MHACTO — Bocaue, Bulacan
+            &copy; {new Date().getFullYear()} MHACTO &mdash; Bocaue, Bulacan
           </p>
-        </motion.div>
+        </div>
       </div>
 
       {/* Right side — Image */}
@@ -178,32 +168,27 @@ export default function AdminLoginPage() {
         <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/20 to-black/60" />
 
         {/* Overlay text */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="absolute bottom-12 left-10 right-10 z-10"
-        >
+        <div className="absolute bottom-12 left-10 right-10 z-10 animate-fade-in-right delay-300">
           <div className="rounded-2xl bg-black/30 p-8 backdrop-blur-md">
             <h2 className="text-3xl font-bold text-white">
               MHACTO <span className="text-primary">Admin Portal</span>
             </h2>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-white/80">
               Manage your tourism website content, view analytics, respond to
-              inquiries, and keep Bocaue&apos;s digital presence thriving — all from
+              inquiries, and keep Bocaue&apos;s digital presence thriving &mdash; all from
               one dashboard.
             </p>
             <div className="mt-4 flex gap-6 text-xs text-white/60">
               <span>Dashboard</span>
-              <span>·</span>
+              <span>&middot;</span>
               <span>CMS</span>
-              <span>·</span>
+              <span>&middot;</span>
               <span>Inquiries</span>
-              <span>·</span>
+              <span>&middot;</span>
               <span>Analytics</span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

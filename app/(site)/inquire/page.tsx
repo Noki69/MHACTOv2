@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ArrowLeft, Send } from "lucide-react"
 import { useState, type FormEvent } from "react"
 import { Button } from "@/components/ui/button"
@@ -50,12 +49,7 @@ export default function InquirePage() {
               Back to home
             </Link>
           </Button>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-center"
-          >
+          <div className="text-center animate-fade-in-up">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary">
               Get in Touch
             </span>
@@ -66,7 +60,7 @@ export default function InquirePage() {
               Fill out the form below and we will get back to you with all the
               information you need for a smooth and enjoyable visit.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -75,12 +69,7 @@ export default function InquirePage() {
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="grid gap-8 lg:gap-12 grid-cols-1 lg:grid-cols-2 items-start">
             {/* Left side - Plan Your Visit Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6 animate-fade-in-left">
               <div>
                 <span className="text-sm font-semibold uppercase tracking-widest text-primary">
                   Plan Your Visit
@@ -116,14 +105,10 @@ export default function InquirePage() {
                   </li>
                 </ul>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right side - Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
+            <div className="animate-fade-in-right delay-100">
             <Card className="border-border shadow-lg sticky top-32">
               <CardHeader className="bg-primary/5">
                 <CardTitle>Inquiry Form</CardTitle>
@@ -223,7 +208,7 @@ export default function InquirePage() {
                 </form>
               </CardContent>
             </Card>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

@@ -1,6 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
@@ -10,13 +7,7 @@ export function AnnouncementSection() {
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="grid gap-8 lg:gap-12 grid-cols-1 lg:grid-cols-2 items-center">
           {/* Left content */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5 }}
-            className="space-y-6"
-          >
+          <div className="space-y-6 animate-fade-in-left">
             <div>
               <span className="text-sm font-semibold uppercase tracking-widest text-primary">
                 Plan Your Visit
@@ -25,7 +16,7 @@ export function AnnouncementSection() {
                 Ready to Explore Bocaue?
               </h2>
               <p className="mt-3 text-muted-foreground leading-relaxed sm:text-lg">
-                Bocaue welcomes all visitors with open arms. Whether you're coming for leisure, pilgrimage, or business, we're here to make your visit memorable and hassle-free.
+                Bocaue welcomes all visitors with open arms. Whether you&#39;re coming for leisure, pilgrimage, or business, we&#39;re here to make your visit memorable and hassle-free.
               </p>
             </div>
 
@@ -61,16 +52,10 @@ export function AnnouncementSection() {
                 <Link href="/contact">Contact Us</Link>
               </Button>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right side - Call to Action Card */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-card rounded-2xl border border-border p-6 sm:p-8 shadow-lg lg:sticky lg:top-32"
-          >
+          <div className="bg-card rounded-2xl border border-border p-6 sm:p-8 shadow-lg lg:sticky lg:top-32 animate-fade-in-right delay-100">
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold text-foreground mb-2">
@@ -83,30 +68,20 @@ export function AnnouncementSection() {
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs uppercase font-semibold text-primary mb-1">
-                    Email
-                  </p>
+                  <p className="text-xs uppercase font-semibold text-primary mb-1">Email</p>
                   <a href="mailto:tourism@bocaue.gov.ph" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
                     tourism@bocaue.gov.ph
                   </a>
                 </div>
-
                 <div>
-                  <p className="text-xs uppercase font-semibold text-primary mb-1">
-                    Phone
-                  </p>
+                  <p className="text-xs uppercase font-semibold text-primary mb-1">Phone</p>
                   <a href="tel:+(044)1234567" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
                     (044) 123-4567
                   </a>
                 </div>
-
                 <div>
-                  <p className="text-xs uppercase font-semibold text-primary mb-1">
-                    Office Hours
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Monday - Friday: 8:00 AM - 5:00 PM
-                  </p>
+                  <p className="text-xs uppercase font-semibold text-primary mb-1">Office Hours</p>
+                  <p className="text-sm text-muted-foreground">Monday - Friday: 8:00 AM - 5:00 PM</p>
                 </div>
               </div>
 
@@ -114,7 +89,7 @@ export function AnnouncementSection() {
                 <Link href="/inquire">Book Your Visit Now</Link>
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

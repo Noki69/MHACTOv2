@@ -1,7 +1,4 @@
-"use client"
-
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
 import { LocationSection } from "@/components/sections/location-section"
 import { Button } from "@/components/ui/button"
@@ -19,12 +16,7 @@ export default function ContactPage() {
               Back to home
             </Link>
           </Button>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-center"
-          >
+          <div className="text-center animate-fade-in-up">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary">
               Get in Touch
             </span>
@@ -34,7 +26,7 @@ export default function ContactPage() {
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
               Reach out to MHACTO for inquiries about tourism, events, and cultural activities in Bocaue.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

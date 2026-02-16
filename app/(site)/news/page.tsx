@@ -1,8 +1,5 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ArrowLeft, ArrowRight, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -20,12 +17,7 @@ export default function NewsPage() {
               Back to home
             </Link>
           </Button>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-center"
-          >
+          <div className="text-center animate-fade-in-up">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary">
               Stay Informed
             </span>
@@ -35,7 +27,7 @@ export default function NewsPage() {
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
               The latest news, stories, and developments from the Municipality of Bocaue, Bulacan.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -44,13 +36,9 @@ export default function NewsPage() {
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2">
             {newsArticles.map((article, i) => (
-              <motion.article
+              <article
                 key={article.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                className={`group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg reveal-on-scroll delay-${(i + 1) * 100}`}
               >
                 <Link href={`/news/${article.id}`} className="block">
                   <div className="relative h-56 sm:h-64 w-full overflow-hidden">
@@ -81,7 +69,7 @@ export default function NewsPage() {
                           day: "numeric",
                         })}
                       </time>
-                      <span className="text-muted-foreground/50">·</span>
+                      <span className="text-muted-foreground/50">&middot;</span>
                       <span>{article.author}</span>
                     </div>
                     <h2 className="text-xl sm:text-2xl font-semibold text-card-foreground group-hover:text-primary transition-colors leading-snug">
@@ -96,7 +84,7 @@ export default function NewsPage() {
                     </span>
                   </div>
                 </Link>
-              </motion.article>
+              </article>
             ))}
           </div>
         </div>

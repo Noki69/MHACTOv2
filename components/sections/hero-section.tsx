@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { asset } from "@/lib/utils"
@@ -16,7 +15,7 @@ const heroSlides = [
     title: "Discover the Heart of",
     highlight: "Bocaue, Bulacan",
     description:
-      "Where rich heritage meets vibrant culture — explore centuries of tradition, lively festivals, and the warm hospitality of Bocaue.",
+      "Where rich heritage meets vibrant culture \u2014 explore centuries of tradition, lively festivals, and the warm hospitality of Bocaue.",
     href: "/places",
   },
   {
@@ -26,7 +25,7 @@ const heroSlides = [
     title: "St. Martin of Tours",
     highlight: "Parish Church",
     description:
-      "A centuries-old landmark standing as a testament to Bocaue's enduring faith and Spanish colonial heritage.",
+      "A centuries-old landmark standing as a testament to Bocaue\u2019s enduring faith and Spanish colonial heritage.",
     href: "/places/st-martin-church",
   },
   {
@@ -36,7 +35,7 @@ const heroSlides = [
     title: "The Grand",
     highlight: "River Festival",
     description:
-      "Experience the vibrant Bocaue River Festival — a spectacular celebration of faith, culture, and community on the water.",
+      "Experience the vibrant Bocaue River Festival \u2014 a spectacular celebration of faith, culture, and community on the water.",
     href: "/places/bocaue-river-festival",
   },
   {
@@ -46,14 +45,14 @@ const heroSlides = [
     title: "The Iconic",
     highlight: "Philippine Arena",
     description:
-      "Home to the world's largest indoor arena, Bocaue is where tradition meets modernity on a grand scale.",
+      "Home to the world\u2019s largest indoor arena, Bocaue is where tradition meets modernity on a grand scale.",
     href: "/places/philippine-arena",
   },
   {
     src: asset("/images/places/fireworks.jpg"),
     alt: "Fireworks in Bocaue",
     subtitle: "The Fireworks Capital",
-    title: "Bocaue's Famous",
+    title: "Bocaue\u2019s Famous",
     highlight: "Pyrotechnic Arts",
     description:
       "Known nationwide as the fireworks capital of the Philippines, Bocaue lights up the sky with dazzling displays year-round.",
@@ -61,30 +60,42 @@ const heroSlides = [
   },
 ]
 
-const SLIDE_INTERVAL = 6000 // 6 seconds per slide
+const SLIDE_INTERVAL = 6000
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * Math.min(Math.max(t, 0), 1)
+}
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [prevSlide, setPrevSlide] = useState<number | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
-  // Scroll tracking across the full wrapper (hero + spacer)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  })
+  // Scroll tracking
+  useEffect(() => {
+    const onScroll = () => {
+      if (!sectionRef.current) return
+      const rect = sectionRef.current.getBoundingClientRect()
+      const total = sectionRef.current.offsetHeight - window.innerHeight
+      const progress = Math.min(Math.max(-rect.top / total, 0), 1)
+      setScrollProgress(progress)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
-  // Image starts zoomed in at 1.35 → zooms out to 1.0 as user scrolls
-  const imageScale = useTransform(scrollYProgress, [0, 0.5], [1.35, 1])
-  // Overlay darkens slightly as zoom out happens for contrast
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.4], [0.35, 0.5])
-  // Text fades and floats up as user scrolls past
-  const textOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
-  const textY = useTransform(scrollYProgress, [0, 0.4], [0, -60])
-  // Scroll indicator fades quickly
-  const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0])
+  const imageScale = lerp(1.35, 1, scrollProgress / 0.5)
+  const overlayOpacity = lerp(0.35, 0.5, scrollProgress / 0.4)
+  const textOpacity = lerp(1, 0, scrollProgress / 0.3)
+  const textY = lerp(0, -60, scrollProgress / 0.4)
+  const scrollIndicatorOpacity = lerp(1, 0, scrollProgress / 0.08)
 
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+    setCurrentSlide((prev) => {
+      setPrevSlide(prev)
+      return (prev + 1) % heroSlides.length
+    })
   }, [])
 
   useEffect(() => {
@@ -92,11 +103,17 @@ export function HeroSection() {
     return () => clearInterval(timer)
   }, [nextSlide])
 
+  // Clear previous slide after crossfade completes
+  useEffect(() => {
+    if (prevSlide === null) return
+    const timeout = setTimeout(() => setPrevSlide(null), 1200)
+    return () => clearTimeout(timeout)
+  }, [prevSlide])
+
   const slide = heroSlides[currentSlide]
 
   const handleScrollDown = () => {
     if (sectionRef.current) {
-      // Scroll to the bottom of the sticky area so the page content reveals
       const scrollTarget = sectionRef.current.offsetHeight - window.innerHeight
       window.scrollTo({ top: scrollTarget, behavior: "smooth" })
     }
@@ -104,83 +121,86 @@ export function HeroSection() {
 
   return (
     <section id="home" ref={sectionRef} className="relative z-0 h-[180svh]">
-      {/* Sticky hero — stays pinned while the wrapper scrolls */}
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* Background image crossfade with scroll-driven zoom OUT */}
-        <motion.div className="absolute inset-0 origin-center" style={{ scale: imageScale }}>
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="absolute inset-0"
-            >
+        <div
+          className="absolute inset-0 origin-center"
+          style={{ transform: `scale(${imageScale})` }}
+        >
+          {/* Previous slide (fading out) */}
+          {prevSlide !== null && (
+            <div className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out opacity-0">
               <Image
-                src={slide.src}
-                alt={slide.alt}
+                src={heroSlides[prevSlide].src}
+                alt={heroSlides[prevSlide].alt}
                 fill
                 sizes="100vw"
                 className="object-cover"
-                priority={currentSlide === 0}
               />
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
+            </div>
+          )}
+          {/* Current slide (fading in) */}
+          <div
+            key={currentSlide}
+            className="absolute inset-0 animate-crossfade-in"
+          >
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              priority={currentSlide === 0}
+            />
+          </div>
+        </div>
 
         {/* Dynamic overlay */}
-        <motion.div
+        <div
           className="absolute inset-0 bg-foreground"
           style={{ opacity: overlayOpacity }}
         />
 
-        {/* Hero text — fades out on scroll */}
-        <motion.div
+        {/* Hero text */}
+        <div
           className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center"
-          style={{ opacity: textOpacity, y: textY }}
+          style={{ opacity: textOpacity, transform: `translateY(${textY}px)` }}
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="flex flex-col items-center"
-            >
-              <p className="mb-3 text-xs sm:text-sm font-semibold uppercase tracking-widest text-secondary">
-                {slide.subtitle}
-              </p>
-              <h1 className="max-w-3xl text-balance text-3xl font-bold leading-tight text-card sm:text-5xl md:text-6xl lg:text-7xl">
-                {slide.title}{" "}
-                <span className="text-primary">{slide.highlight}</span>
-              </h1>
-              <p className="mt-4 max-w-xl text-pretty text-sm text-card/85 sm:text-base md:text-lg lg:text-xl">
-                {slide.description}
-              </p>
-              <Link href={slide.href} className="mt-6 sm:mt-8">
-                <Button
-                  size="lg"
-                  className="group gap-2 rounded-full bg-primary px-6 sm:px-8 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transition-all"
-                >
-                  Learn More
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
+          <div key={currentSlide} className="flex flex-col items-center animate-hero-text-in">
+            <p className="mb-3 text-xs sm:text-sm font-semibold uppercase tracking-widest text-secondary">
+              {slide.subtitle}
+            </p>
+            <h1 className="max-w-3xl text-balance text-3xl font-bold leading-tight text-card sm:text-5xl md:text-6xl lg:text-7xl">
+              {slide.title}{" "}
+              <span className="text-primary">{slide.highlight}</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-pretty text-sm text-card/85 sm:text-base md:text-lg lg:text-xl">
+              {slide.description}
+            </p>
+            <Link href={slide.href} className="mt-6 sm:mt-8">
+              <Button
+                size="lg"
+                className="group gap-2 rounded-full bg-primary px-6 sm:px-8 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                Learn More
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </div>
+        </div>
 
         {/* Circle pagination dots */}
-        <motion.div
+        <div
           className="absolute bottom-20 sm:bottom-24 left-1/2 z-20 flex -translate-x-1/2 gap-3"
           style={{ opacity: textOpacity }}
         >
           {heroSlides.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrentSlide(i)}
+              onClick={() => {
+                setPrevSlide(currentSlide)
+                setCurrentSlide(i)
+              }}
               className={`rounded-full border-2 transition-all duration-500 ${
                 i === currentSlide
                   ? "h-3.5 w-3.5 border-white bg-white scale-110"
@@ -189,10 +209,10 @@ export function HeroSection() {
               aria-label={`Go to slide ${i + 1}`}
             />
           ))}
-        </motion.div>
+        </div>
 
-        {/* Scroll down indicator — fades out on scroll */}
-        <motion.button
+        {/* Scroll down indicator */}
+        <button
           onClick={handleScrollDown}
           style={{ opacity: scrollIndicatorOpacity }}
           className="absolute bottom-6 sm:bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 text-white/80 hover:text-white transition-colors cursor-pointer"
@@ -201,13 +221,10 @@ export function HeroSection() {
           <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em]">
             Scroll Down
           </span>
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          >
+          <div className="animate-bounce-y">
             <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6" />
-          </motion.div>
-        </motion.button>
+          </div>
+        </button>
       </div>
     </section>
   )

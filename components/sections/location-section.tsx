@@ -1,6 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
 import { MapPin, Clock, Phone } from "lucide-react"
 
 export function LocationSection() {
@@ -9,13 +6,7 @@ export function LocationSection() {
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="grid gap-6 sm:gap-8 grid-cols-1 lg:grid-cols-3">
           {/* Info cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col gap-6"
-          >
+          <div className="flex flex-col gap-6 animate-fade-in-up">
             <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-sm">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <MapPin className="h-5 w-5 text-primary" />
@@ -27,46 +18,32 @@ export function LocationSection() {
                 </p>
               </div>
             </div>
-
             <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-sm">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <Clock className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold text-card-foreground">
-                  Office Hours
-                </h3>
+                <h3 className="font-semibold text-card-foreground">Office Hours</h3>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   Monday - Friday: 8:00 AM - 5:00 PM
                 </p>
               </div>
             </div>
-
             <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-sm">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                 <Phone className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold text-card-foreground">
-                  Contact
-                </h3>
+                <h3 className="font-semibold text-card-foreground">Contact</h3>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  tourism@bocaue.gov.ph
-                  <br />
-                  (044) 123-4567
+                  tourism@bocaue.gov.ph<br />(044) 123-4567
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Map */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-2"
-          >
+          <div className="lg:col-span-2 animate-fade-in-up delay-200">
             <div className="h-full min-h-[300px] sm:min-h-[400px] overflow-hidden rounded-xl border border-border shadow-sm">
               <iframe
                 title="Bocaue, Bulacan Map"
@@ -79,7 +56,7 @@ export function LocationSection() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

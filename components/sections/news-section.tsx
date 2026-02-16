@@ -1,8 +1,5 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ArrowRight, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,13 +9,7 @@ export function NewsSection() {
   return (
     <section id="news" className="relative z-20 bg-background pt-16 pb-14 sm:pt-24 sm:pb-16 lg:pt-36 lg:pb-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 sm:mb-12 text-center"
-        >
+        <div className="mb-8 sm:mb-12 text-center reveal-on-scroll">
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
             Latest Updates
           </span>
@@ -29,17 +20,13 @@ export function NewsSection() {
             Stay up to date with the latest happenings, achievements, and
             developments in the Municipality of Bocaue.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2">
           {newsArticles.map((article, i) => (
-            <motion.article
+            <article
               key={article.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+              className={`group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg reveal-on-scroll delay-${(i + 1) * 100}`}
             >
               <Link href={`/news/${article.id}`} className="block">
                 <div className="relative h-52 sm:h-60 w-full overflow-hidden">
@@ -83,24 +70,18 @@ export function NewsSection() {
                   </span>
                 </div>
               </Link>
-            </motion.article>
+            </article>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 text-center"
-        >
+        <div className="mt-10 text-center reveal-on-scroll delay-300">
           <Button asChild variant="outline" size="lg" className="rounded-full gap-2">
             <Link href="/news">
               View All News
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

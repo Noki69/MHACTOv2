@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { motion } from "framer-motion"
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -47,11 +46,7 @@ export default function NewsDetailClient({ article }: NewsDetailClientProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="absolute inset-0 flex items-end">
           <div className="mx-auto w-full max-w-4xl px-4 pb-8 sm:pb-12 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className="animate-fade-in-up">
               <Badge className="mb-3 bg-primary text-primary-foreground text-xs uppercase tracking-wider">
                 {categoryLabels[article.category]}
               </Badge>
@@ -74,7 +69,7 @@ export default function NewsDetailClient({ article }: NewsDetailClientProps) {
                   {article.author}
                 </span>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -89,12 +84,7 @@ export default function NewsDetailClient({ article }: NewsDetailClientProps) {
             </Link>
           </Button>
 
-          <motion.article
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="prose prose-neutral dark:prose-invert max-w-none"
-          >
+          <article className="prose prose-neutral dark:prose-invert max-w-none animate-fade-in-up delay-200">
             <p className="text-lg leading-relaxed text-muted-foreground mb-6 font-medium">
               {article.summary}
             </p>
@@ -103,7 +93,7 @@ export default function NewsDetailClient({ article }: NewsDetailClientProps) {
                 <p key={i}>{paragraph}</p>
               ))}
             </div>
-          </motion.article>
+          </article>
 
           {/* Tags */}
           <div className="mt-8 flex items-center gap-2">

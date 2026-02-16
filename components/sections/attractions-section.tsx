@@ -1,8 +1,5 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ArrowRight, Clock, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,13 +9,7 @@ export function AttractionsSection() {
   return (
     <section id="attractions" className="relative z-20 bg-card pt-16 pb-14 sm:pt-24 sm:pb-16 lg:pt-36 lg:pb-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 sm:mb-12 text-center"
-        >
+        <div className="mb-8 sm:mb-12 text-center reveal-on-scroll">
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
             Top Destinations
           </span>
@@ -29,17 +20,13 @@ export function AttractionsSection() {
             From awe-inspiring landmarks to mouth-watering cuisine, Bocaue
             offers an unforgettable experience for every visitor.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {attractions.slice(0, 4).map((item, i) => (
-            <motion.div
+            <div
               key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+              className={`group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg reveal-on-scroll delay-${(i + 1) * 100}`}
             >
               <Link href={`/places/${item.id}`} className="block">
                 <div className="relative h-44 sm:h-52 w-full overflow-hidden">
@@ -84,25 +71,19 @@ export function AttractionsSection() {
                   </span>
                 </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* View All button */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 text-center"
-        >
+        <div className="mt-10 text-center reveal-on-scroll delay-300">
           <Button asChild variant="outline" size="lg" className="rounded-full gap-2">
             <Link href="/places">
               View All Places
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

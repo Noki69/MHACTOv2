@@ -3,7 +3,6 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
 import { ArrowLeft, Clock, MapPin, Phone, CalendarDays, Sparkles, Tag } from "lucide-react"
 
 import { categoryLabels, type Place } from "@/lib/data/places-data"
@@ -45,22 +44,17 @@ export default function PlaceDetailsPage({ place }: PlaceDetailsPageProps) {
           <Button variant="ghost" size="sm" asChild className="mb-6 gap-1 text-muted-foreground">
             <Link href="/places">
               <ArrowLeft className="h-4 w-4" />
-              Back to Places & Events
+              Back to Places &amp; Events
             </Link>
           </Button>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-center"
-          >
+          <div className="text-center animate-fade-in-up">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary">
               Place Details
             </span>
             <h1 className="mt-2 text-3xl font-bold text-card-foreground md:text-4xl lg:text-5xl">
               {place.title}
             </h1>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -70,12 +64,7 @@ export default function PlaceDetailsPage({ place }: PlaceDetailsPageProps) {
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Image and main description */}
             <div className="lg:col-span-2 space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
-              >
+              <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm animate-fade-in-up">
                 <div className="relative h-72 w-full overflow-hidden md:h-[28rem]">
                   <Image
                     src={place.image}
@@ -91,30 +80,20 @@ export default function PlaceDetailsPage({ place }: PlaceDetailsPageProps) {
                     </Badge>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="space-y-4"
-              >
+              <div className="space-y-4 animate-fade-in-up delay-100">
                 <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
                   About {place.title}
                 </h2>
                 <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">
                   {place.fullDescription || place.description}
                 </p>
-              </motion.div>
+              </div>
 
               {/* The Story / History */}
               {place.story && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="space-y-4 rounded-xl border border-border bg-muted/30 p-6"
-                >
+                <div className="space-y-4 rounded-xl border border-border bg-muted/30 p-6 animate-fade-in-up delay-200">
                   <div className="flex items-center gap-2">
                     <Sparkles className="h-5 w-5 text-primary" />
                     <h3 className="text-xl font-bold text-foreground">
@@ -124,40 +103,30 @@ export default function PlaceDetailsPage({ place }: PlaceDetailsPageProps) {
                   <p className="text-sm sm:text-base leading-relaxed text-muted-foreground whitespace-pre-line">
                     {place.story}
                   </p>
-                </motion.div>
+                </div>
               )}
 
               {/* Highlights */}
               {place.highlights && place.highlights.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="space-y-3"
-                >
+                <div className="space-y-3 animate-fade-in-up delay-300">
                   <h3 className="text-lg font-semibold text-foreground">
                     Highlights
                   </h3>
                   <ul className="space-y-2">
                     {place.highlights.map((h, i) => (
                       <li key={i} className="flex gap-3 text-sm sm:text-base text-muted-foreground">
-                        <span className="mt-0.5 text-primary font-bold shrink-0">✦</span>
+                        <span className="mt-0.5 text-primary font-bold shrink-0">&#10022;</span>
                         <span>{h}</span>
                       </li>
                     ))}
                   </ul>
-                </motion.div>
+                </div>
               )}
             </div>
 
             {/* Sidebar with details */}
             <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="space-y-4 lg:sticky lg:top-28"
-              >
+              <div className="space-y-4 lg:sticky lg:top-28 animate-fade-in-up delay-200">
                 {place.established && (
                   <Card className="border-border">
                     <CardContent className="p-5">
@@ -255,7 +224,7 @@ export default function PlaceDetailsPage({ place }: PlaceDetailsPageProps) {
                     </CardContent>
                   </Card>
                 )}
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>

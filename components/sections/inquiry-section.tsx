@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, type FormEvent } from "react"
-import { motion } from "framer-motion"
 import { Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -38,32 +37,20 @@ export function InquirySection() {
   return (
     <section id="inquiry" className="relative z-20 bg-primary/5 pt-32 pb-20 lg:pt-36 lg:pb-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 text-center"
-        >
+        <div className="mb-12 text-center reveal-on-scroll">
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
             Get in Touch
           </span>
           <h2 className="mt-2 text-balance text-3xl font-bold text-foreground md:text-4xl">
-            Tourist Inquiry & Registration
+            Tourist Inquiry &amp; Registration
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-pretty text-muted-foreground">
             Fill out the form below and we will get back to you with all the
             information you need for a smooth and enjoyable visit.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mx-auto max-w-2xl"
-        >
+        <div className="mx-auto max-w-2xl reveal-on-scroll delay-100">
           <form
             onSubmit={handleSubmit}
             className="space-y-6 rounded-2xl border border-border bg-card p-6 shadow-lg md:p-8"
@@ -148,7 +135,7 @@ export function InquirySection() {
               Submit Inquiry
             </Button>
           </form>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

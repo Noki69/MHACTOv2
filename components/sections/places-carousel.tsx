@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
 
 import { attractions } from "@/lib/data/places-data"
 import {
@@ -13,11 +12,13 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel"
+import { useRevealOnScroll } from "@/hooks/use-reveal"
 
 export function PlacesCarousel() {
   const [api, setApi] = useState<CarouselApi>()
   const [isPlaying, setIsPlaying] = useState(true)
   const [activeIndex, setActiveIndex] = useState(0)
+  const headingRef = useRevealOnScroll<HTMLDivElement>()
 
   // Track active slide
   useEffect(() => {
@@ -65,12 +66,9 @@ export function PlacesCarousel() {
   return (
     <section className="relative z-10 bg-background py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.4 }}
-          className="mb-6 text-center md:mb-8"
+        <div
+          ref={headingRef}
+          className="reveal-on-scroll mb-6 text-center md:mb-8"
         >
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
             Featured Places
@@ -82,7 +80,7 @@ export function PlacesCarousel() {
             Browse each place one by one. Slideshow auto-plays, or use the
             previous and next buttons to navigate manually.
           </p>
-        </motion.div>
+        </div>
 
         <div className="relative">
           <Carousel
@@ -105,16 +103,12 @@ export function PlacesCarousel() {
                     className="basis-[85%] sm:basis-3/4 md:basis-3/5 lg:basis-1/2"
                   >
                     <div className="h-[280px] sm:h-[340px] md:h-[400px] flex items-center justify-center">
-                      <motion.article
-                        animate={{
-                          scale: isActive ? 1 : 0.85,
+                      <article
+                        className="relative w-full h-[280px] sm:h-[340px] md:h-[400px] overflow-hidden rounded-2xl border border-border shadow-sm transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+                        style={{
+                          transform: isActive ? "scale(1)" : "scale(0.85)",
                           opacity: isActive ? 1 : 0.45,
                         }}
-                        transition={{
-                          duration: 0.6,
-                          ease: [0.25, 0.1, 0.25, 1],
-                        }}
-                        className="relative w-full h-[280px] sm:h-[340px] md:h-[400px] overflow-hidden rounded-2xl border border-border shadow-sm"
                       >
                         {/* Landscape image - fixed height, fills entire card */}
                         <Image
@@ -131,24 +125,19 @@ export function PlacesCarousel() {
                           <h3 className="text-lg font-semibold text-card-foreground sm:text-xl md:text-2xl">
                             {place.title}
                           </h3>
-                          <AnimatePresence mode="wait">
-                            {isActive && (
-                              <motion.p
-                                initial={{ opacity: 0, y: 8 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 8 }}
-                                transition={{
-                                  duration: 0.4,
-                                  ease: [0.25, 0.1, 0.25, 1],
-                                }}
-                                className="mt-1.5 sm:mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg"
-                              >
-                                {place.description}
-                              </motion.p>
-                            )}
-                          </AnimatePresence>
+                          <p
+                            className="mt-1.5 sm:mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg transition-all duration-400 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+                            style={{
+                              opacity: isActive ? 1 : 0,
+                              transform: isActive ? "translateY(0)" : "translateY(8px)",
+                              maxHeight: isActive ? "200px" : "0",
+                              overflow: "hidden",
+                            }}
+                          >
+                            {place.description}
+                          </p>
                         </div>
-                      </motion.article>
+                      </article>
                     </div>
                   </CarouselItem>
                 )

@@ -3,8 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Megaphone, Clock, Tag } from "lucide-react"
+import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Megaphone, Clock } from "lucide-react"
 import { format } from "date-fns"
 import {
   attractions,
@@ -22,6 +21,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useRevealOnScroll } from "@/hooks/use-reveal"
 
 const eventDates = getEventDates()
 const today = new Date()
@@ -37,6 +37,15 @@ export default function PlacesPage() {
   const INITIAL_COUNT = 4
   const displayed = showAll ? filtered : filtered.slice(0, INITIAL_COUNT)
 
+  const announcementsRef = useRevealOnScroll<HTMLDivElement>()
+  const descriptionRef = useRevealOnScroll<HTMLDivElement>()
+  const spotsHeadingRef = useRevealOnScroll<HTMLDivElement>()
+  const filtersRef = useRevealOnScroll<HTMLDivElement>()
+  const calendarHeadingRef = useRevealOnScroll<HTMLDivElement>()
+  const calendarRef = useRevealOnScroll<HTMLDivElement>()
+  const upcomingRef = useRevealOnScroll<HTMLDivElement>()
+  const pastRef = useRevealOnScroll<HTMLDivElement>()
+
   return (
     <main className="min-h-screen bg-background">
 
@@ -49,12 +58,7 @@ export default function PlacesPage() {
               Back to home
             </Link>
           </Button>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-center"
-          >
+          <div className="text-center animate-fade-in-up">
             <span className="text-sm font-semibold uppercase tracking-widest text-primary">
               Explore
             </span>
@@ -64,7 +68,7 @@ export default function PlacesPage() {
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
               A complete guide to tourist spots, featured events, and the events calendar.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -72,13 +76,7 @@ export default function PlacesPage() {
       <section className="border-y border-border bg-muted/40 py-10 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {/* Section heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5 }}
-            className="mb-6 sm:mb-10"
-          >
+          <div ref={announcementsRef} className="reveal-on-scroll mb-6 sm:mb-10">
             <div className="flex items-center gap-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                 <Megaphone className="h-5 w-5 text-primary" />
@@ -90,53 +88,40 @@ export default function PlacesPage() {
                 <p className="text-muted-foreground">Featured events &amp; spotlight</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Featured Spotlight */}
           <FeaturedSpotlight />
 
           {/* Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-6 sm:mt-10 max-w-3xl space-y-4 text-sm sm:text-base text-muted-foreground"
+          <div
+            ref={descriptionRef}
+            className="reveal-on-scroll delay-100 mt-6 sm:mt-10 max-w-3xl space-y-4 text-sm sm:text-base text-muted-foreground"
           >
             <p>
-              Stay updated with the latest events and announcements happening in Bocaue. From cultural celebrations to special events, discover what's happening in our town.
+              Stay updated with the latest events and announcements happening in Bocaue. From cultural celebrations to special events, discover what&apos;s happening in our town.
             </p>
             <p>
-              Don't miss out on the vibrant activities and festivals that bring our community together.
+              Don&apos;t miss out on the vibrant activities and festivals that bring our community together.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* All places overview */}
       <section className="py-10 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            className="mb-8 sm:mb-10 text-center"
-          >
+          <div ref={spotsHeadingRef} className="reveal-on-scroll mb-8 sm:mb-10 text-center">
             <h2 className="text-xl font-bold text-foreground sm:text-2xl md:text-3xl">
               All Tourist Spots in Bocaue
             </h2>
             <p className="mt-2 text-muted-foreground">
               Discover every must-see place in town — from heritage sites and nature walks to festivals, artisan crafts, and cuisine.
             </p>
-          </motion.div>
+          </div>
 
           {/* Category filter tabs */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-6 sm:mb-8 flex flex-wrap justify-center gap-2"
-          >
+          <div ref={filtersRef} className="reveal-on-scroll mb-6 sm:mb-8 flex flex-wrap justify-center gap-2">
             <Button
               variant={activeCategory === "all" ? "default" : "outline"}
               size="sm"
@@ -156,79 +141,69 @@ export default function PlacesPage() {
                 {categoryLabels[cat]}
               </Button>
             ))}
-          </motion.div>
+          </div>
 
           {/* Place cards */}
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            <AnimatePresence mode="popLayout">
-              {displayed.map((place, i) => (
-                <motion.div
-                  key={place.id}
-                  layout
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.35, delay: i * 0.05 }}
+            {displayed.map((place, i) => (
+              <div
+                key={place.id}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${i * 50}ms`, animationFillMode: "both" }}
+              >
+                <Link
+                  href={`/places/${place.id}`}
+                  className="group block overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
                 >
-                  <Link
-                    href={`/places/${place.id}`}
-                    className="group block overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <Image
-                        src={place.image}
-                        alt={place.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        loading="lazy"
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute top-3 left-3">
-                        <Badge variant="secondary" className="bg-black/60 text-white border-0 text-[10px] uppercase tracking-wider backdrop-blur-sm">
-                          {categoryLabels[place.category]}
-                        </Badge>
-                      </div>
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <Image
+                      src={place.image}
+                      alt={place.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      loading="lazy"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <Badge variant="secondary" className="bg-black/60 text-white border-0 text-[10px] uppercase tracking-wider backdrop-blur-sm">
+                        {categoryLabels[place.category]}
+                      </Badge>
                     </div>
-                    <div className="p-4">
-                      <h3 className="text-base sm:text-lg font-semibold text-card-foreground group-hover:text-primary transition-colors">
-                        {place.title}
-                      </h3>
-                      <p className="mt-1 text-sm sm:text-base text-muted-foreground line-clamp-2">
-                        {place.description}
-                      </p>
-                      <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-                        {place.established && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            Est. {place.established}
-                          </span>
-                        )}
-                        {place.location && (
-                          <span className="flex items-center gap-1 truncate">
-                            <MapPin className="h-3 w-3 shrink-0" />
-                            <span className="truncate">{place.location.split(",")[0]}</span>
-                          </span>
-                        )}
-                      </div>
-                      <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary">
-                        Read the full story
-                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                      </span>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-card-foreground group-hover:text-primary transition-colors">
+                      {place.title}
+                    </h3>
+                    <p className="mt-1 text-sm sm:text-base text-muted-foreground line-clamp-2">
+                      {place.description}
+                    </p>
+                    <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
+                      {place.established && (
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          Est. {place.established}
+                        </span>
+                      )}
+                      {place.location && (
+                        <span className="flex items-center gap-1 truncate">
+                          <MapPin className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{place.location.split(",")[0]}</span>
+                        </span>
+                      )}
                     </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary">
+                      Read the full story
+                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </Link>
+              </div>
+            ))}
           </div>
 
           {/* View All button */}
           {!showAll && filtered.length > INITIAL_COUNT && (
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mt-10 text-center"
-            >
+            <div className="mt-10 text-center animate-fade-in-up">
               <Button
                 variant="outline"
                 size="lg"
@@ -238,14 +213,10 @@ export default function PlacesPage() {
                 View All {filtered.length} Places
                 <ArrowRight className="h-4 w-4" />
               </Button>
-            </motion.div>
+            </div>
           )}
           {showAll && filtered.length > INITIAL_COUNT && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-10 text-center"
-            >
+            <div className="mt-10 text-center animate-fade-in">
               <Button
                 variant="ghost"
                 size="sm"
@@ -254,7 +225,7 @@ export default function PlacesPage() {
               >
                 Show fewer
               </Button>
-            </motion.div>
+            </div>
           )}
         </div>
       </section>
@@ -262,12 +233,7 @@ export default function PlacesPage() {
       {/* Events calendar + past & future lists */}
       <section className="py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            className="mb-10 flex items-center gap-2"
-          >
+          <div ref={calendarHeadingRef} className="reveal-on-scroll mb-10 flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
               <CalendarDays className="h-5 w-5 text-primary" />
             </div>
@@ -279,16 +245,11 @@ export default function PlacesPage() {
                 Past and upcoming events in Bocaue
               </p>
             </div>
-          </motion.div>
+          </div>
 
           <div className="grid gap-8 lg:gap-10 grid-cols-1 lg:grid-cols-3">
             {/* Calendar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-1"
-            >
+            <div ref={calendarRef} className="reveal-on-scroll lg:col-span-1">
               <Card className="border-border">
                 <CardHeader>
                   <CardTitle className="text-lg">Calendar</CardTitle>
@@ -309,16 +270,11 @@ export default function PlacesPage() {
                   />
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
 
             {/* Upcoming & Past events lists */}
             <div className="space-y-8 lg:col-span-2">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-              >
+              <div ref={upcomingRef} className="reveal-on-scroll delay-100">
                 <h3 className="mb-4 text-lg font-semibold text-foreground">
                   Upcoming events
                 </h3>
@@ -351,14 +307,9 @@ export default function PlacesPage() {
                     ))
                   )}
                 </div>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.15 }}
-              >
+              <div ref={pastRef} className="reveal-on-scroll delay-200">
                 <h3 className="mb-4 text-lg font-semibold text-foreground">
                   Past events
                 </h3>
@@ -386,7 +337,7 @@ export default function PlacesPage() {
                     ))
                   )}
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
