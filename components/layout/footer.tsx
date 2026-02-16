@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
 import { Facebook, Instagram } from "lucide-react"
@@ -47,6 +45,12 @@ export function Footer() {
               className="text-sm text-card/70 transition-colors hover:text-card"
             >
               Attractions
+            </Link>
+            <Link
+              href="/news"
+              className="text-sm text-card/70 transition-colors hover:text-card"
+            >
+              News &amp; Blog
             </Link>
             <Link
               href="/inquire"

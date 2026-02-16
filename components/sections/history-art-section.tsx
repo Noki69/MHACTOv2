@@ -161,7 +161,7 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
           className="relative"
         >
           <div className="h-5 w-5 rounded-full bg-primary shadow-lg shadow-primary/30 ring-4 ring-background" />
-          <div className="absolute inset-0 h-5 w-5 animate-ping rounded-full bg-primary/30" style={{ animationDuration: "3s", animationDelay: `${index * 0.5}s` }} />
+          <div className="absolute inset-0 h-5 w-5 rounded-full bg-primary/30 animate-ping" style={{ animationDuration: "3s", animationIterationCount: "3", animationDelay: `${index * 0.5}s` }} />
         </motion.div>
       </div>
 

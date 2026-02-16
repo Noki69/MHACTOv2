@@ -42,6 +42,8 @@ export function FeaturedEventsPortrait() {
                     src={event.image}
                     alt={event.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 24rem"
+                    loading="lazy"
                     className="object-cover"
                   />
                 </div>

@@ -1,37 +1,36 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { ArrowLeft, Clock, MapPin, Phone, CalendarDays, Sparkles, Tag } from "lucide-react"
 
-import { attractions, categoryLabels, type Place } from "@/lib/data/places-data"
+import { categoryLabels, type Place } from "@/lib/data/places-data"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-export default function PlaceDetailsPage() {
-  const params = useParams()
-  const router = useRouter()
-  const [place, setPlace] = useState<Place | undefined>(undefined)
+interface PlaceDetailsPageProps {
+  place?: Place
+}
 
-  useEffect(() => {
-    const id = params?.id as string
-    const foundPlace = attractions.find((p) => p.id === id)
-    if (!foundPlace) {
-      router.push("/places")
-    } else {
-      setPlace(foundPlace)
-    }
-  }, [params, router])
+export default function PlaceDetailsPage({ place }: PlaceDetailsPageProps) {
+  const router = useRouter()
 
   if (!place) {
     return (
       <main className="min-h-screen bg-background">
         <div className="flex min-h-[60vh] items-center justify-center">
-          <p className="text-muted-foreground">Loading...</p>
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-foreground">Place not found</h1>
+            <p className="mt-2 text-muted-foreground">
+              The place you&apos;re looking for doesn&apos;t exist.
+            </p>
+            <Button asChild className="mt-6">
+              <Link href="/places">Back to Places</Link>
+            </Button>
+          </div>
         </div>
       </main>
     )
@@ -82,6 +81,7 @@ export default function PlaceDetailsPage() {
                     src={place.image}
                     alt={place.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 66vw"
                     className="object-cover"
                     priority
                   />

@@ -29,6 +29,7 @@ export function FeaturedSpotlight() {
             src={spotlight.image}
             alt={spotlight.title}
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />

@@ -121,6 +121,7 @@ export function HeroSection() {
                 src={slide.src}
                 alt={slide.alt}
                 fill
+                sizes="100vw"
                 className="object-cover"
                 priority={currentSlide === 0}
               />

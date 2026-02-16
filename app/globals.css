@@ -91,4 +91,8 @@
   html {
     scroll-behavior: smooth;
   }
+  /* Offset hash-scroll targets below the fixed navbar */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
 }

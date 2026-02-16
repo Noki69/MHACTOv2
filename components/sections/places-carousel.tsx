@@ -121,8 +121,9 @@ export function PlacesCarousel() {
                           src={place.image}
                           alt={place.title}
                           fill
+                          sizes="(max-width: 640px) 85vw, (max-width: 768px) 75vw, (max-width: 1024px) 60vw, 50vw"
+                          loading={index === 0 ? "eager" : "lazy"}
                           className="object-cover"
-                          priority={place.id === attractions[0].id}
                         />
 
                         {/* Content overlay at bottom with 65% opacity */}
