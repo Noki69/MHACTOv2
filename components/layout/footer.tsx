@@ -11,17 +11,14 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center">
-              <div className="relative h-10 w-auto">
-                <Image
-                  src={asset("/images/logos/MHACTO_LOGO.png")}
-                  alt="MHACTO Bocaue Logo"
-                  width={250}
-                  height={100}
-                  sizes="75px"
-                  className="h-full w-auto object-contain"
-                  style={{ maxWidth: '100%', height: 'auto' }}
-                />
-              </div>
+              <Image
+                src={asset("/images/logos/MHACTO_LOGO.png")}
+                alt="MHACTO Bocaue Logo"
+                width={160}
+                height={40}
+                sizes="160px"
+                className="h-8 w-auto object-contain"
+              />
             </div>
             <p className="mt-3 text-sm leading-relaxed text-card/70">
               Municipal History, Arts, Culture and Tourism Office of Bocaue,
@@ -50,7 +47,7 @@ export function Footer() {
               href="/news"
               className="text-sm text-card/70 transition-colors hover:text-card"
             >
-              News &amp; Blog
+              News &amp; Updates
             </Link>
             <Link
               href="/inquire"

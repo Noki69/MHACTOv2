@@ -11,34 +11,41 @@ import { useEffect } from "react"
  */
 export function RevealObserver() {
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("revealed")
-            observer.unobserve(entry.target)
+    let observer: IntersectionObserver | null = null
+    let mutation: MutationObserver | null = null
+
+    // Delay setup so it doesn't mutate the DOM during React hydration
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed")
+              observer?.unobserve(entry.target)
+            }
           }
-        }
-      },
-      { rootMargin: "-40px", threshold: 0.1 }
-    )
+        },
+        { rootMargin: "-40px", threshold: 0.1 }
+      )
 
-    // Observe all current elements
-    function observeAll() {
-      document.querySelectorAll(".reveal-on-scroll:not(.revealed)").forEach((el) => {
-        observer.observe(el)
-      })
-    }
+      // Observe all current elements
+      function observeAll() {
+        document.querySelectorAll(".reveal-on-scroll:not(.revealed)").forEach((el) => {
+          observer?.observe(el)
+        })
+      }
 
-    observeAll()
+      observeAll()
 
-    // Also catch elements added later (e.g. from client-side navigation)
-    const mutation = new MutationObserver(() => observeAll())
-    mutation.observe(document.body, { childList: true, subtree: true })
+      // Also catch elements added later (e.g. from client-side navigation)
+      mutation = new MutationObserver(() => observeAll())
+      mutation.observe(document.body, { childList: true, subtree: true })
+    }, 100)
 
     return () => {
-      observer.disconnect()
-      mutation.disconnect()
+      clearTimeout(timer)
+      observer?.disconnect()
+      mutation?.disconnect()
     }
   }, [])
 

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, Calendar } from "lucide-react"
+import { ArrowLeft, ArrowRight, Calendar, Megaphone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { newsArticles, categoryLabels } from "@/lib/data/news-data"
@@ -22,23 +22,38 @@ export default function NewsPage() {
               Stay Informed
             </span>
             <h1 className="mt-2 text-3xl font-bold text-card-foreground md:text-4xl lg:text-5xl">
-              News &amp; Blog
+              News &amp; Updates
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-              The latest news, stories, and developments from the Municipality of Bocaue, Bulacan.
+              The latest announcements, updates, and developments from the Municipality of Bocaue, Bulacan.
             </p>
           </div>
         </div>
       </section>
 
-      {/* News grid */}
+      {/* News articles grid */}
       <section className="py-10 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2">
+          <div className="mb-8 sm:mb-10 reveal-on-scroll">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <Megaphone className="h-5 w-5 text-primary" />
+              </div>
+              <h2 className="text-xl font-bold text-foreground sm:text-2xl md:text-3xl">
+                All Articles
+              </h2>
+            </div>
+            <p className="mt-2 text-muted-foreground">
+              Read the latest stories and updates from our municipality.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {newsArticles.map((article, i) => (
               <article
                 key={article.id}
-                className={`group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg reveal-on-scroll delay-${(i + 1) * 100}`}
+                className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg reveal-on-scroll"
+                style={{ animationDelay: `${(i + 1) * 80}ms` }}
               >
                 <Link href={`/news/${article.id}`} className="block">
                   <div className="relative h-56 sm:h-64 w-full overflow-hidden">
@@ -46,7 +61,7 @@ export default function NewsPage() {
                       src={article.image}
                       alt={article.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       loading="lazy"
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
@@ -72,7 +87,7 @@ export default function NewsPage() {
                       <span className="text-muted-foreground/50">&middot;</span>
                       <span>{article.author}</span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-semibold text-card-foreground group-hover:text-primary transition-colors leading-snug">
+                    <h2 className="text-lg sm:text-xl font-semibold text-card-foreground group-hover:text-primary transition-colors leading-snug">
                       {article.title}
                     </h2>
                     <p className="mt-3 text-sm sm:text-base leading-relaxed text-muted-foreground line-clamp-3">

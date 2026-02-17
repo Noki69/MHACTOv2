@@ -9,6 +9,7 @@ import {
   type CMSPost,
   type ContentLabel,
   type ContentStatus,
+  type PostType,
 } from "@/lib/data/admin-data"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -63,6 +64,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Newspaper,
+  Landmark,
 } from "lucide-react"
 import { format, parseISO } from "date-fns"
 
@@ -70,6 +73,7 @@ type FormData = {
   title: string
   body: string
   label: ContentLabel
+  postType: PostType
   status: ContentStatus
   images: string[]
   location: string
@@ -79,12 +83,14 @@ type FormData = {
   category: string
   story: string
   highlights: string
+  newsDate: string
 }
 
 const EMPTY_FORM: FormData = {
   title: "",
   body: "",
-  label: "blog",
+  label: "historical",
+  postType: "place",
   status: "draft",
   images: [],
   location: "",
@@ -94,7 +100,10 @@ const EMPTY_FORM: FormData = {
   category: "",
   story: "",
   highlights: "",
+  newsDate: new Date().toISOString().slice(0, 10),
 }
+
+const UNKNOWN_LABEL = { label: "Other", color: "bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300" }
 
 const PLACE_CATEGORIES = [
   "Temple & Heritage",
@@ -117,6 +126,7 @@ export default function CMSPage() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingPost, setEditingPost] = useState<CMSPost | null>(null)
   const [form, setForm] = useState<FormData>(EMPTY_FORM)
+  const [showTypeChooser, setShowTypeChooser] = useState(false)
 
   // Delete confirm
   const [deleteTarget, setDeleteTarget] = useState<CMSPost | null>(null)
@@ -148,7 +158,17 @@ export default function CMSPage() {
     setEditingPost(null)
     setForm(EMPTY_FORM)
     setImageUrlInput("")
+    setShowTypeChooser(true)
     setDialogOpen(true)
+  }
+
+  const selectPostType = (type: PostType) => {
+    setForm({
+      ...EMPTY_FORM,
+      postType: type,
+      label: type === "news" ? "news" : "historical",
+    })
+    setShowTypeChooser(false)
   }
 
   const openEdit = (post: CMSPost) => {
@@ -157,6 +177,7 @@ export default function CMSPage() {
       title: post.title,
       body: post.body,
       label: post.label,
+      postType: post.postType ?? "place",
       status: post.status,
       images: post.image,
       location: post.location ?? "",
@@ -166,8 +187,10 @@ export default function CMSPage() {
       category: post.category ?? "",
       story: post.story ?? "",
       highlights: post.highlights?.join("\n") ?? "",
+      newsDate: post.newsDate ?? "",
     })
     setImageUrlInput("")
+    setShowTypeChooser(false)
     setDialogOpen(true)
   }
 
@@ -178,17 +201,23 @@ export default function CMSPage() {
       title: form.title,
       body: form.body,
       label: form.label,
+      postType: form.postType,
       status: form.status,
       image: form.images,
-      location: form.location || undefined,
-      hours: form.hours || undefined,
-      contact: form.contact || undefined,
-      established: form.established || undefined,
-      category: form.category && form.category !== "none" ? form.category : undefined,
-      story: form.story || undefined,
-      highlights: form.highlights.trim()
+    }
+
+    if (form.postType === "place") {
+      payload.location = form.location || undefined
+      payload.hours = form.hours || undefined
+      payload.contact = form.contact || undefined
+      payload.established = form.established || undefined
+      payload.category = form.category && form.category !== "none" ? form.category : undefined
+      payload.story = form.story || undefined
+      payload.highlights = form.highlights.trim()
         ? form.highlights.split("\n").map((h) => h.trim()).filter(Boolean)
-        : undefined,
+        : undefined
+    } else {
+      payload.newsDate = form.newsDate || undefined
     }
 
     if (editingPost) {
@@ -232,7 +261,7 @@ export default function CMSPage() {
                 Content Management
               </h1>
               <p className="mt-1 text-sm text-muted-foreground">
-                Create, edit, and manage posts, announcements & blogs.
+                Create, edit, and manage places, cultural posts & news articles.
               </p>
             </div>
             <Button onClick={openCreate} className="gap-2">
@@ -346,8 +375,8 @@ export default function CMSPage() {
                   )}
                   {/* Overlay badges */}
                   <div className="absolute left-2.5 top-2.5 flex flex-wrap gap-1.5">
-                    <Badge className={`text-xs shadow-sm ${contentLabels[post.label].color}`}>
-                      {contentLabels[post.label].label}
+                    <Badge className={`text-xs shadow-sm ${(contentLabels[post.label] ?? UNKNOWN_LABEL).color}`}>
+                      {(contentLabels[post.label] ?? UNKNOWN_LABEL).label}
                     </Badge>
                     <Badge className={`text-xs shadow-sm ${statusColor[post.status]}`}>
                       {post.status}
@@ -439,10 +468,44 @@ export default function CMSPage() {
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingPost ? "Edit Post" : "Create New Post"}
+                {editingPost ? "Edit Post" : showTypeChooser ? "What would you like to post?" : `New ${form.postType === "news" ? "News Article" : "Place / Cultural Post"}`}
               </DialogTitle>
             </DialogHeader>
 
+            {/* ── Type chooser (only on create, first step) ── */}
+            {showTypeChooser && !editingPost ? (
+              <div className="grid gap-4 sm:grid-cols-2 py-4">
+                <button
+                  onClick={() => selectPostType("place")}
+                  className="group flex flex-col items-center gap-3 rounded-xl border-2 border-border p-8 transition-all hover:border-primary hover:bg-primary/5"
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:scale-110">
+                    <Landmark className="h-7 w-7" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="font-semibold text-card-foreground">Place / Cultural</h3>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Tourist spots, heritage sites, festivals, arts & culture
+                    </p>
+                  </div>
+                </button>
+                <button
+                  onClick={() => selectPostType("news")}
+                  className="group flex flex-col items-center gap-3 rounded-xl border-2 border-border p-8 transition-all hover:border-primary hover:bg-primary/5"
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 transition-transform group-hover:scale-110">
+                    <Newspaper className="h-7 w-7" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="font-semibold text-card-foreground">News</h3>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      News articles, updates & announcements
+                    </p>
+                  </div>
+                </button>
+              </div>
+            ) : (
+            <>
             <div className="space-y-4 py-2">
               <div className="space-y-2">
                 <Label>Title</Label>
@@ -454,36 +517,57 @@ export default function CMSPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Content</Label>
+                <Label>{form.postType === "news" ? "Story / Content" : "Content"}</Label>
                 <Textarea
                   value={form.body}
                   onChange={(e) => setForm({ ...form, body: e.target.value })}
-                  placeholder="Write your content here..."
-                  rows={10}
+                  placeholder={form.postType === "news" ? "Write the full news story here..." : "Write your content here..."}
+                  rows={form.postType === "news" ? 12 : 10}
                   className="resize-y"
                 />
               </div>
 
+              {/* News-specific: Date field */}
+              {form.postType === "news" && (
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-1.5">
+                    <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" /> Date
+                  </Label>
+                  <Input
+                    type="date"
+                    value={form.newsDate}
+                    onChange={(e) => setForm({ ...form, newsDate: e.target.value })}
+                  />
+                </div>
+              )}
+
               <div className="grid gap-4 sm:grid-cols-3">
+                {/* Label select — only show Place labels for place posts, "News" for news posts */}
                 <div className="space-y-2">
                   <Label>Label</Label>
-                  <Select
-                    value={form.label}
-                    onValueChange={(v) =>
-                      setForm({ ...form, label: v as ContentLabel })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.entries(contentLabels).map(([key, { label }]) => (
-                        <SelectItem key={key} value={key}>
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {form.postType === "news" ? (
+                    <Input value="News" readOnly className="bg-muted cursor-not-allowed" />
+                  ) : (
+                    <Select
+                      value={form.label}
+                      onValueChange={(v) =>
+                        setForm({ ...form, label: v as ContentLabel })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.entries(contentLabels)
+                          .filter(([key]) => key !== "news")
+                          .map(([key, { label }]) => (
+                            <SelectItem key={key} value={key}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -616,104 +700,108 @@ export default function CMSPage() {
                 </div>
               </div>
 
-              {/* ── Place Details Section ── */}
-              <Separator />
-              <p className="text-sm font-medium text-muted-foreground">Place Details (optional)</p>
+              {/* ── Place Details Section (only for place posts) ── */}
+              {form.postType === "place" && (
+                <>
+                  <Separator />
+                  <p className="text-sm font-medium text-muted-foreground">Place Details (optional)</p>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1.5">
-                    <MapPin className="h-3.5 w-3.5 text-muted-foreground" /> Location
-                  </Label>
-                  <Input
-                    value={form.location}
-                    onChange={(e) => setForm({ ...form, location: e.target.value })}
-                    placeholder="e.g. Bocaue Town Center, Bulacan"
-                  />
-                </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-1.5">
+                        <MapPin className="h-3.5 w-3.5 text-muted-foreground" /> Location
+                      </Label>
+                      <Input
+                        value={form.location}
+                        onChange={(e) => setForm({ ...form, location: e.target.value })}
+                        placeholder="e.g. Bocaue Town Center, Bulacan"
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1.5">
-                    <Clock className="h-3.5 w-3.5 text-muted-foreground" /> Hours
-                  </Label>
-                  <Input
-                    value={form.hours}
-                    onChange={(e) => setForm({ ...form, hours: e.target.value })}
-                    placeholder="e.g. Daily: 6:00 AM – 8:00 PM"
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-1.5">
+                        <Clock className="h-3.5 w-3.5 text-muted-foreground" /> Hours
+                      </Label>
+                      <Input
+                        value={form.hours}
+                        onChange={(e) => setForm({ ...form, hours: e.target.value })}
+                        placeholder="e.g. Daily: 6:00 AM – 8:00 PM"
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1.5">
-                    <Phone className="h-3.5 w-3.5 text-muted-foreground" /> Contact
-                  </Label>
-                  <Input
-                    value={form.contact}
-                    onChange={(e) => setForm({ ...form, contact: e.target.value })}
-                    placeholder="e.g. (044) 123-4567"
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-1.5">
+                        <Phone className="h-3.5 w-3.5 text-muted-foreground" /> Contact
+                      </Label>
+                      <Input
+                        value={form.contact}
+                        onChange={(e) => setForm({ ...form, contact: e.target.value })}
+                        placeholder="e.g. (044) 123-4567"
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1.5">
-                    <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" /> Established
-                  </Label>
-                  <Input
-                    value={form.established}
-                    onChange={(e) => setForm({ ...form, established: e.target.value })}
-                    placeholder="e.g. 1787"
-                  />
-                </div>
-              </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-1.5">
+                        <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" /> Established
+                      </Label>
+                      <Input
+                        value={form.established}
+                        onChange={(e) => setForm({ ...form, established: e.target.value })}
+                        placeholder="e.g. 1787"
+                      />
+                    </div>
+                  </div>
 
-              <div className="space-y-2">
-                <Label className="flex items-center gap-1.5">
-                  <Tag className="h-3.5 w-3.5 text-muted-foreground" /> Category
-                </Label>
-                <Select
-                  value={form.category}
-                  onValueChange={(v) => setForm({ ...form, category: v })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">None</SelectItem>
-                    {PLACE_CATEGORIES.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-1.5">
+                      <Tag className="h-3.5 w-3.5 text-muted-foreground" /> Category
+                    </Label>
+                    <Select
+                      value={form.category}
+                      onValueChange={(v) => setForm({ ...form, category: v })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">None</SelectItem>
+                        {PLACE_CATEGORIES.map((cat) => (
+                          <SelectItem key={cat} value={cat}>
+                            {cat}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-              <div className="space-y-2">
-                <Label className="flex items-center gap-1.5">
-                  <Sparkles className="h-3.5 w-3.5 text-muted-foreground" /> Story
-                </Label>
-                <Textarea
-                  value={form.story}
-                  onChange={(e) => setForm({ ...form, story: e.target.value })}
-                  placeholder="Write the story behind this place..."
-                  rows={4}
-                  className="resize-y"
-                />
-              </div>
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-1.5">
+                      <Sparkles className="h-3.5 w-3.5 text-muted-foreground" /> Story
+                    </Label>
+                    <Textarea
+                      value={form.story}
+                      onChange={(e) => setForm({ ...form, story: e.target.value })}
+                      placeholder="Write the story behind this place..."
+                      rows={4}
+                      className="resize-y"
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <Label className="flex items-center gap-1.5">
-                  <List className="h-3.5 w-3.5 text-muted-foreground" /> Highlights
-                  <span className="text-xs text-muted-foreground font-normal">(one per line)</span>
-                </Label>
-                <Textarea
-                  value={form.highlights}
-                  onChange={(e) => setForm({ ...form, highlights: e.target.value })}
-                  placeholder={"Over 235 years of tradition\nIconic pagoda fluvial procession\nWeek-long festivities"}
-                  rows={4}
-                  className="resize-y"
-                />
-              </div>
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-1.5">
+                      <List className="h-3.5 w-3.5 text-muted-foreground" /> Highlights
+                      <span className="text-xs text-muted-foreground font-normal">(one per line)</span>
+                    </Label>
+                    <Textarea
+                      value={form.highlights}
+                      onChange={(e) => setForm({ ...form, highlights: e.target.value })}
+                      placeholder={"Over 235 years of tradition\nIconic pagoda fluvial procession\nWeek-long festivities"}
+                      rows={4}
+                      className="resize-y"
+                    />
+                  </div>
+                </>
+              )}
             </div>
 
             <DialogFooter>
@@ -724,6 +812,8 @@ export default function CMSPage() {
                 {editingPost ? "Save Changes" : "Create Post"}
               </Button>
             </DialogFooter>
+            </>
+            )}
           </DialogContent>
         </Dialog>
 
@@ -734,8 +824,8 @@ export default function CMSPage() {
               <>
                 <DialogHeader>
                   <div className="flex items-center gap-2 mb-1">
-                    <Badge className={contentLabels[previewPost.label].color}>
-                      {contentLabels[previewPost.label].label}
+                    <Badge className={(contentLabels[previewPost.label] ?? UNKNOWN_LABEL).color}>
+                      {(contentLabels[previewPost.label] ?? UNKNOWN_LABEL).label}
                     </Badge>
                     <Badge className={statusColor[previewPost.status]}>
                       {previewPost.status}

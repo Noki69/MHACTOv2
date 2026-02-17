@@ -8,12 +8,13 @@ export function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { id: string }
-}): Metadata {
-  const place = attractions.find((p) => p.id === params.id)
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const place = attractions.find((p) => p.id === id)
   if (!place) {
     return { title: "Place Not Found" }
   }
@@ -28,7 +29,8 @@ export function generateMetadata({
   }
 }
 
-export default function Page({ params }: { params: { id: string } }) {
-  const place = attractions.find((p) => p.id === params.id)
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const place = attractions.find((p) => p.id === id)
   return <PlaceDetailsPage place={place} />
 }

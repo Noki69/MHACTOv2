@@ -3,11 +3,10 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Megaphone, Clock } from "lucide-react"
+import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Clock, Star } from "lucide-react"
 import { format } from "date-fns"
 import {
   attractions,
-  featuredEvents,
   getEventDates,
   getPastEvents,
   getUpcomingEvents,
@@ -17,6 +16,7 @@ import {
   type PlaceCategory,
 } from "@/lib/data/places-data"
 import { FeaturedSpotlight } from "@/components/sections/featured-spotlight"
+import { FeaturedEventsPortrait } from "@/components/sections/featured-events-portrait"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -37,8 +37,7 @@ export default function PlacesPage() {
   const INITIAL_COUNT = 4
   const displayed = showAll ? filtered : filtered.slice(0, INITIAL_COUNT)
 
-  const announcementsRef = useRevealOnScroll<HTMLDivElement>()
-  const descriptionRef = useRevealOnScroll<HTMLDivElement>()
+  const highlightsRef = useRevealOnScroll<HTMLDivElement>()
   const spotsHeadingRef = useRevealOnScroll<HTMLDivElement>()
   const filtersRef = useRevealOnScroll<HTMLDivElement>()
   const calendarHeadingRef = useRevealOnScroll<HTMLDivElement>()
@@ -63,47 +62,35 @@ export default function PlacesPage() {
               Explore
             </span>
             <h1 className="mt-2 text-3xl font-bold text-card-foreground md:text-4xl lg:text-5xl">
-              Bocaue Overview
+              Places &amp; Events
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-              A complete guide to tourist spots, featured events, and the events calendar.
+              A complete guide to tourist spots and the events calendar in Bocaue.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Announcements – Featured events */}
-      <section className="border-y border-border bg-muted/40 py-10 sm:py-16 lg:py-20">
+      {/* Spotlight & Highlights */}
+      <section className="border-b border-border bg-muted/40 py-10 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          {/* Section heading */}
-          <div ref={announcementsRef} className="reveal-on-scroll mb-6 sm:mb-10">
+          <div ref={highlightsRef} className="reveal-on-scroll mb-6 sm:mb-10">
             <div className="flex items-center gap-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <Megaphone className="h-5 w-5 text-primary" />
+                <Star className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-foreground sm:text-2xl md:text-3xl">
-                  Announcements
+                  Spotlight &amp; Highlights
                 </h2>
-                <p className="text-muted-foreground">Featured events &amp; spotlight</p>
+                <p className="text-muted-foreground">Featured places &amp; upcoming events</p>
               </div>
             </div>
           </div>
 
-          {/* Featured Spotlight */}
-          <FeaturedSpotlight />
-
-          {/* Description */}
-          <div
-            ref={descriptionRef}
-            className="reveal-on-scroll delay-100 mt-6 sm:mt-10 max-w-3xl space-y-4 text-sm sm:text-base text-muted-foreground"
-          >
-            <p>
-              Stay updated with the latest events and announcements happening in Bocaue. From cultural celebrations to special events, discover what&apos;s happening in our town.
-            </p>
-            <p>
-              Don&apos;t miss out on the vibrant activities and festivals that bring our community together.
-            </p>
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] items-start">
+            <FeaturedSpotlight />
+            <FeaturedEventsPortrait />
           </div>
         </div>
       </section>

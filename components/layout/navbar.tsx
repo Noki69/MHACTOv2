@@ -88,28 +88,27 @@ export function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 bg-card/65 backdrop-blur-md shadow-md"
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:py-4 lg:px-8">
+        {/* Left – MHACTO logo */}
         <Link href="/#home" className="flex shrink-0 items-center">
-          <div className="relative h-8 sm:h-10 w-auto">
-            <Image
-              src={asset("/images/logos/MHACTO_LOGO.png")}
-              alt="MHACTO Bocaue Logo"
-              width={160}
-              height={40}
-              className="h-full w-auto object-contain"
-              style={{ imageRendering: 'crisp-edges' }}
-              priority
-            />
-          </div>
+          <Image
+            src={asset("/images/logos/MHACTO_LOGO.png")}
+            alt="MHACTO Bocaue Logo"
+            width={180}
+            height={48}
+            className="h-9 sm:h-11 w-auto object-contain"
+            style={{ imageRendering: 'crisp-edges' }}
+            priority
+          />
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-8 md:flex">
+        {/* Center – Desktop nav links */}
+        <div className="hidden items-center gap-6 lg:gap-8 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={getHref(link)}
               onClick={(e) => handleHashClick(e, link)}
-              className={`text-base font-medium transition-colors hover:text-primary ${
+              className={`text-sm lg:text-base font-medium transition-colors hover:text-primary ${
                 isActive(link)
                   ? "text-primary"
                   : "text-foreground"
@@ -120,34 +119,60 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Mobile nav */}
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden text-foreground"
-              aria-label="Open menu"
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-72 bg-card">
-            <SheetTitle className="text-foreground">Menu</SheetTitle>
-            <div className="mt-8 flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={getHref(link)}
-                  className={`text-lg font-medium transition-colors hover:text-primary ${
-                    isActive(link)
-                      ? "text-primary"
-                      : "text-foreground"
-                  }`}
-                  onClick={(e) => {
-                    handleHashClick(e, link)
-                    setOpen(false)
-                  }}
+        {/* Right – Municipality of Bocaue logo + mobile menu */}
+        <div className="flex items-center gap-3">
+          <Link href="/#home" className="hidden md:flex shrink-0 items-center gap-2">
+            <Image
+              src={asset("/images/logos/Municipality_of_bocaue.png")}
+              alt="Municipality of Bocaue Logo"
+              width={64}
+              height={64}
+              className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+              priority
+            />
+            <span className="hidden lg:block text-sm font-semibold leading-tight text-foreground">
+              Municipality<br />of Bocaue
+            </span>
+          </Link>
+
+          {/* Mobile nav */}
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden text-foreground"
+                aria-label="Open menu"
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72 bg-card">
+              <SheetTitle className="text-foreground">Menu</SheetTitle>
+              {/* MHACTO logo in mobile menu */}
+              <div className="mt-4 mb-6 flex justify-center">
+                <Image
+                  src={asset("/images/logos/MHACTO_LOGO.png")}
+                  alt="MHACTO Bocaue Logo"
+                  width={140}
+                  height={36}
+                  className="h-8 w-auto object-contain"
+                />
+              </div>
+              <div className="flex flex-col gap-6">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={getHref(link)}
+                    className={`text-lg font-medium transition-colors hover:text-primary ${
+                      isActive(link)
+                        ? "text-primary"
+                        : "text-foreground"
+                    }`}
+                    onClick={(e) => {
+                      handleHashClick(e, link)
+                      setOpen(false)
+                    }}
                 >
                   {link.label}
                 </Link>
@@ -155,6 +180,7 @@ export function Navbar() {
             </div>
           </SheetContent>
         </Sheet>
+        </div>
       </nav>
     </header>
   )

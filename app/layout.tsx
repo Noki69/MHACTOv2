@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Poppins } from 'next/font/google'
 
 import './globals.css'
-import { RevealObserver } from '@/components/reveal-observer'
+import { RevealObserverWrapper } from '@/components/reveal-observer-wrapper'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} font-sans antialiased overflow-x-hidden`}>
-        <RevealObserver />
+        <RevealObserverWrapper />
         {children}
       </body>
     </html>

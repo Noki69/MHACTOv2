@@ -7,16 +7,18 @@ export type ContentLabel =
   | "arts"
   | "culture"
   | "tourism"
-  | "announcement"
-  | "blog"
+  | "news"
 
 export type ContentStatus = "draft" | "published" | "archived"
+
+export type PostType = "place" | "news"
 
 export interface CMSPost {
   id: string
   title: string
   body: string
   label: ContentLabel
+  postType: PostType
   status: ContentStatus
   image: string[]
   // Place detail fields
@@ -27,6 +29,8 @@ export interface CMSPost {
   category?: string
   story?: string
   highlights?: string[]
+  // News detail fields
+  newsDate?: string
   createdAt: string // ISO
   updatedAt: string // ISO
 }
@@ -97,8 +101,7 @@ export const contentLabels: Record<ContentLabel, { label: string; color: string 
   arts: { label: "Arts", color: "bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300" },
   culture: { label: "Culture", color: "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300" },
   tourism: { label: "Tourism", color: "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300" },
-  announcement: { label: "Announcement", color: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300" },
-  blog: { label: "Blog", color: "bg-slate-100 text-slate-800 dark:bg-slate-800/40 dark:text-slate-300" },
+  news: { label: "News", color: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300" },
 }
 
 export const inquiryStatusLabels: Record<InquiryStatus, { label: string; color: string }> = {
@@ -167,6 +170,7 @@ export const MOCK_POSTS: CMSPost[] = [
     title: "Bocaue River Festival 2026 — A Celebration of Faith and Culture",
     body: "The annual Bocaue River Festival is set to return this July with more grandeur than ever. The festival, which commemorates the Cross of Bocaue, will feature a fluvial parade, fireworks, and cultural performances. Join us in celebrating Bocaue's most beloved tradition!\n\nThis year's celebration will include new activities such as a food festival showcasing local delicacies, an artisan market, and a historical exhibit at the Old Town Plaza. The festivities will run from July 1-7, 2026.",
     label: "festival",
+    postType: "place",
     status: "published",
     image: [asset("/images/places/river-festival.jpg")],
     location: "Bocaue River, Bulacan",
@@ -184,6 +188,7 @@ export const MOCK_POSTS: CMSPost[] = [
     title: "St. Martin of Tours Church — Restoration Update",
     body: "The ongoing restoration of St. Martin of Tours Parish Church is progressing well. The centuries-old structure, a cornerstone of Bocaue's heritage, is being carefully restored to preserve its Spanish colonial architecture while ensuring structural integrity for generations to come.\n\nPhase 2 of the restoration, focusing on the bell tower and facade, is expected to be completed by March 2026. Visitors are welcome to view the progress from the designated viewing area.",
     label: "historical",
+    postType: "place",
     status: "published",
     image: [asset("/images/places/church-bocaue.jpg")],
     location: "Bocaue Town Center, Bulacan",
@@ -201,6 +206,7 @@ export const MOCK_POSTS: CMSPost[] = [
     title: "New Art Exhibit at Bocaue Artisan Village",
     body: "A new exhibit featuring local artisans will open at the Bocaue Artisan Crafts Village this February. The exhibit showcases traditional craftsmanship including pottery, weaving, and woodcarving that have been part of Bocaue's cultural identity for centuries.",
     label: "arts",
+    postType: "place",
     status: "draft",
     image: [],
     location: "Bocaue Artisan Crafts Village",
@@ -213,9 +219,11 @@ export const MOCK_POSTS: CMSPost[] = [
     id: "post-4",
     title: "Important Notice: MHACTO Office Hours Update",
     body: "Starting February 2026, the MHACTO office will observe new office hours: Monday to Friday, 8:00 AM to 5:00 PM. Saturday walk-in consultations will be available from 9:00 AM to 12:00 PM by appointment only.",
-    label: "announcement",
+    label: "news",
+    postType: "news",
     status: "published",
     image: [],
+    newsDate: "2026-02-05",
     location: "MHACTO Office, Municipal Hall, Bocaue",
     hours: "Mon–Fri: 8:00 AM – 5:00 PM",
     contact: "mhacto@bocaue.gov.ph",
@@ -226,7 +234,8 @@ export const MOCK_POSTS: CMSPost[] = [
     id: "post-5",
     title: "Exploring Bocaue's Local Delicacies — A Culinary Journey",
     body: "Bocaue is not only known for its fireworks and festivals but also for its rich culinary heritage. From the famous chicharon to traditional kakanin, our town offers a diverse palette of flavors waiting to be discovered.\n\nJoin our monthly food tour every first Saturday to explore the best of Bocaue's local cuisine.",
-    label: "blog",
+    label: "culture",
+    postType: "place",
     status: "published",
     image: [asset("/images/places/local-delicacies.jpg")],
     location: "Various locations, Bocaue",

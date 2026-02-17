@@ -8,12 +8,13 @@ export function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { id: string }
-}): Metadata {
-  const article = newsArticles.find((a) => a.id === params.id)
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const article = newsArticles.find((a) => a.id === id)
   if (!article) {
     return { title: "Article Not Found" }
   }
@@ -31,7 +32,8 @@ export function generateMetadata({
   }
 }
 
-export default function Page({ params }: { params: { id: string } }) {
-  const article = newsArticles.find((a) => a.id === params.id)
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const article = newsArticles.find((a) => a.id === id)
   return <NewsDetailClient article={article} />
 }
