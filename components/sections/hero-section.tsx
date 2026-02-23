@@ -11,9 +11,9 @@ const heroSlides = [
   {
     src: asset("/images/heroes/hero-bocaue.jpg"),
     alt: "Scenic view of Bocaue, Bulacan",
-    subtitle: "Municipal History, Arts, Culture & Tourism Office",
-    title: "Discover the Heart of",
-    highlight: "Bocaue, Bulacan",
+    subtitle: "Bocaue, Bulacan",
+    title: "Explore The River ",
+    highlight: "Town Wonders",
     description:
       "Where rich heritage meets vibrant culture \u2014 explore centuries of tradition, lively festivals, and the warm hospitality of Bocaue.",
     href: "/places",
@@ -122,38 +122,17 @@ export function HeroSection() {
   return (
     <section id="home" ref={sectionRef} className="relative z-0 h-[180svh]">
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
-        {/* Background image crossfade with scroll-driven zoom OUT */}
-        <div
-          className="absolute inset-0 origin-center"
+        {/* Background video */}
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
           style={{ transform: `scale(${imageScale})` }}
-        >
-          {/* Previous slide (fading out) */}
-          {prevSlide !== null && (
-            <div className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out opacity-0">
-              <Image
-                src={heroSlides[prevSlide].src}
-                alt={heroSlides[prevSlide].alt}
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
-            </div>
-          )}
-          {/* Current slide (fading in) */}
-          <div
-            key={currentSlide}
-            className="absolute inset-0 animate-crossfade-in"
-          >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              sizes="100vw"
-              className="object-cover"
-              priority={currentSlide === 0}
-            />
-          </div>
-        </div>
+          src={asset("/images/Video2.mp4")}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={asset("/images/heroes/hero-bocaue.jpg")}
+        />
 
         {/* Dynamic overlay */}
         <div

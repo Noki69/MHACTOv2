@@ -4,11 +4,13 @@ export interface NewsArticle {
   id: string
   title: string
   summary: string
+  description: string
   content: string
   image: string
   date: string
   category: "competition" | "project" | "community" | "festival"
   author: string
+  places: string[]
 }
 
 export const categoryLabels: Record<NewsArticle["category"], string> = {
@@ -24,6 +26,8 @@ export const newsArticles: NewsArticle[] = [
     title: "Bocaue Youth Wins Regional Quiz Bee Championship",
     summary:
       "Students from Bocaue National High School brought home the gold after clinching first place at the 2026 Regional Quiz Bee held in the City of San Fernando, Pampanga.",
+    description: "A historic victory for Bocaue's brightest students at the Regional Quiz Bee Championship",
+    places: ["Bocaue National High School", "City of San Fernando", "Municipal Hall"],
     content: `The Municipality of Bocaue is bursting with pride as a team of talented students from Bocaue National High School emerged as champions at the 2026 Central Luzon Regional Quiz Bee held on February 10, 2026 in the City of San Fernando, Pampanga.
 
 The winning team — composed of Angela Santos, Marco Reyes, and Jessa Dela Cruz — competed against 14 other provincial finalists in a grueling multi-round competition that covered Science, Mathematics, Filipino, and Social Studies.
@@ -47,6 +51,8 @@ Congratulations to our champions — Bocaue is behind you!`,
     title: "New Bocaue River Esplanade Project Breaks Ground",
     summary:
       "The Municipality of Bocaue kicks off construction of the Bocaue River Esplanade, a transformative waterfront project aimed at boosting tourism and public recreation.",
+    description: "A ₱85 million waterfront transformation project featuring cultural pavilions and heritage trails",
+    places: ["Bocaue River", "Philippine Arena", "St. Martin of Tours Church"],
     content: `The Municipality of Bocaue officially broke ground on the highly anticipated Bocaue River Esplanade Project on February 5, 2026, marking a major milestone in the town's push toward sustainable tourism and urban development.
 
 The project, estimated at ₱85 million in funding from a combination of local government budget and national grants, will transform a 1.2-kilometer stretch along the Bocaue River into a modern waterfront promenade featuring:
@@ -74,6 +80,8 @@ The Bocaue River Esplanade is set to become a landmark destination, joining the 
     title: "Bocaue Gears Up for the Grand Pagoda Festival 2026",
     summary:
       "The iconic Cross River Pagoda Festival returns this July with a bigger, more vibrant celebration featuring river processions, cultural performances, and fireworks.",
+    description: "Bocaue's centuries-old Pagoda Festival returns bigger and brighter for 2026",
+    places: ["Bocaue River", "Municipal Hall", "Historic Barangays"],
     content: `Preparations are well underway for the 2026 edition of Bocaue's world-famous Pagoda Festival, one of the most anticipated religious and cultural events in the Province of Bulacan.
 
 Held every July in honor of the Holy Cross, the Pagoda Festival — locally known as the "Pagoda sa Wawa" — is a centuries-old tradition that draws tens of thousands of devotees and tourists from across the Philippines and abroad. The centerpiece of the celebration is a massive, elaborately decorated pagoda that is floated along the Bocaue River in a spectacular procession.
@@ -104,6 +112,8 @@ Visitors planning to attend are encouraged to book accommodations early, as hote
     title: "Bocaue Launches Community-Wide Cleanup and Greening Drive",
     summary:
       "Over 2,000 volunteers join the municipality's largest environmental cleanup initiative, targeting riverbanks, public parks, and schoolyards across 49 barangays.",
+    description: "Community-wide environmental initiative mobilizes 2,000 volunteers across all 49 barangays",
+    places: ["Bocaue Riverbanks", "Public Parks", "Schoolyards", "All 49 Barangays"],
     content: `In a remarkable show of community spirit, more than 2,000 residents and volunteers participated in Bocaue's biggest-ever cleanup and greening drive on January 20, 2026, covering all 49 barangays simultaneously.
 
 The event, organized by the Municipal Environment and Natural Resources Office (MENRO) in partnership with MHACTO and local barangay councils, aimed to clear waste from public spaces, plant native trees and shrubs, and raise awareness about proper waste management.
@@ -134,6 +144,8 @@ The next community cleanup is scheduled for Earth Day, April 22, 2026, and the L
     title: "MHACTO Completes Digital Heritage Mapping of Historic Bocaue",
     summary:
       "A pioneering digital heritage map now catalogs over 120 historical landmarks, ancestral homes, and cultural sites across the municipality for preservation and tourism.",
+    description: "Comprehensive digital heritage map documents 120+ historical landmarks and cultural sites",
+    places: ["St. Martin of Tours Church", "Historic Ancestral Houses", "Bocaue River Heritage Sites"],
     content: `The Municipal History, Arts, Culture and Tourism Office (MHACTO) has completed a two-year digital heritage mapping project that documents more than 120 historical landmarks, ancestral homes, and cultural sites across Bocaue.
 
 The project, launched in January 2024, involved extensive fieldwork by MHACTO researchers, local historians, and volunteers from Bulacan State University's Department of History. Using GPS mapping, drone photography, and archival research, the team created a comprehensive digital database that is now accessible to the public through the municipality's official website.
@@ -164,6 +176,8 @@ MHACTO plans to expand the map with augmented reality features by 2027, allowing
     title: "Fiesta ng Kabataan 2026: Youth Talents Take Center Stage in Bocaue",
     summary:
       "Hundreds of young Bocaueños showcase their talents in music, dance, visual arts, and spoken word at the annual Fiesta ng Kabataan youth festival.",
+    description: "A vibrant celebration of youth creativity and talent across music, dance, and visual arts",
+    places: ["Municipal Covered Court", "Town Plaza", "Bocaue Public Library"],
     content: `The streets and plazas of Bocaue came alive with youthful energy as the municipality hosted the 5th annual Fiesta ng Kabataan on January 10–12, 2026, a three-day celebration of the arts, creativity, and the talents of Bocaue's young generation.
 
 Organized by the Sangguniang Kabataan (SK) Federation in partnership with MHACTO, the festival featured competitions and performances in music, dance, visual arts, spoken word poetry, and short film. Over 350 participants aged 15 to 24 from all 49 barangays took part.
@@ -193,6 +207,8 @@ The event closed with a free open-air concert at the town plaza, featuring perfo
     title: "Free Livelihood Training Opens Doors for 500 Bocaue Residents",
     summary:
       "The LGU partners with TESDA and local businesses to offer free skills training in culinary arts, digital marketing, welding, and crafts to help residents boost their income.",
+    description: "Free TESDA-certified skills training in culinary arts, digital marketing, welding, and handicrafts",
+    places: ["Municipal Hall", "Barangay Offices"],
     content: `Five hundred residents of Bocaue are set to benefit from a comprehensive livelihood training program launched on January 5, 2026, through a partnership between the Municipal Government, the Technical Education and Skills Development Authority (TESDA), and several local businesses.
 
 The program offers free certification courses in four high-demand skills tracks:

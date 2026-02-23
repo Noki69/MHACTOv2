@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu } from "lucide-react"
+import { Menu, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { asset } from "@/lib/utils"
 import {
@@ -13,11 +13,11 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet"
+import { PlacesEventsDropdown } from "./places-events-dropdown"
 
 const navLinks = [
   { label: "Home", href: "/#home", isHash: true },
   { label: "Attractions", href: "/#attractions", isHash: true },
-  { label: "Places & Events", href: "/places", isHash: false },
   { label: "News", href: "/news", isHash: false },
   { label: "Inquire", href: "/inquire", isHash: false },
   { label: "Contact", href: "/contact", isHash: false },
@@ -26,6 +26,7 @@ const navLinks = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [placesDropdownOpen, setPlacesDropdownOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const isHomePage = pathname === "/"
@@ -39,11 +40,22 @@ export function Navbar() {
   // Determine if a link is active
   const isActive = useCallback(
     (link: (typeof navLinks)[0]) => {
-      if (link.isHash) return isHomePage
+      if (link.isHash && isHomePage) {
+        if (typeof window !== "undefined") {
+          const currentHash = window.location.hash;
+          // Highlight Home if no hash or hash is "#home"
+          if (link.href === "/#home" && (!currentHash || currentHash === "#home")) return true;
+          // Highlight Attractions if hash is "#attractions"
+          if (link.href === "/#attractions" && currentHash === "#attractions") return true;
+          return false;
+        }
+        // fallback: highlight Home if no hash
+        return link.href === "/#home";
+      }
       // Match exact path or child paths (e.g. /places matches /places/[id])
-      return pathname === link.href || pathname.startsWith(link.href + "/")
+      return pathname === link.href || pathname.startsWith(link.href + "/");
     },
-    [pathname, isHomePage],
+    [pathname, isHomePage]
   )
 
   // For hash links on the home page, use simple anchors
@@ -63,29 +75,15 @@ export function Navbar() {
 
       e.preventDefault()
       const hash = link.href.split("#")[1]
-      router.push("/")
-
-      // Wait for the home page to render, then scroll to the target
-      const scrollToHash = () => {
-        const el = document.getElementById(hash)
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" })
-        } else {
-          // Home page may not have rendered yet — retry once
-          requestAnimationFrame(() => {
-            document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" })
-          })
-        }
-      }
-      // Small delay to let the route change + render complete
-      setTimeout(scrollToHash, 150)
+      // Navigate to the homepage with the hash so the browser scrolls to the section
+      router.push(`/#${hash}`)
     },
     [isHomePage, router],
   )
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-card/65 backdrop-blur-md shadow-md"
+      className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md shadow-md"
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:py-4 lg:px-8">
         {/* Left – MHACTO logo */}
@@ -117,6 +115,9 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          
+          {/* Places & Events Dropdown */}
+          <PlacesEventsDropdown isActive={pathname === "/places" || pathname.startsWith("/places/")} />
         </div>
 
         {/* Right – Municipality of Bocaue logo + mobile menu */}
@@ -177,6 +178,68 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              
+              {/* Mobile Places & Events Dropdown */}
+              <button
+                onClick={() => setPlacesDropdownOpen(!placesDropdownOpen)}
+                className={`text-lg font-medium transition-colors flex items-center justify-between hover:text-primary ${
+                  pathname === "/places" || pathname.startsWith("/places/")
+                    ? "text-primary"
+                    : "text-foreground"
+                }`}
+              >
+                Places & Events
+                <ChevronDown
+                  className={`h-5 w-5 transition-transform ${
+                    placesDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              
+              {placesDropdownOpen && (
+                <div className="pl-4 space-y-3 border-l-2 border-primary/20">
+                  <Link
+                    href="/places/category/history"
+                    className="block text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    onClick={() => {
+                      setOpen(false)
+                      setPlacesDropdownOpen(false)
+                    }}
+                  >
+                    History Wonders
+                  </Link>
+                  <Link
+                    href="/places/category/arts-business"
+                    className="block text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    onClick={() => {
+                      setOpen(false)
+                      setPlacesDropdownOpen(false)
+                    }}
+                  >
+                    Arts and Business Wonders
+                  </Link>
+                  <Link
+                    href="/places/category/tourism"
+                    className="block text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    onClick={() => {
+                      setOpen(false)
+                      setPlacesDropdownOpen(false)
+                    }}
+                  >
+                    Tourism Wonders
+                  </Link>
+                  <Link
+                    href="/places/category/culinary"
+                    className="block text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    onClick={() => {
+                      setOpen(false)
+                      setPlacesDropdownOpen(false)
+                    }}
+                  >
+                    Culinary Wonders
+                  </Link>
+                </div>
+              )}
             </div>
           </SheetContent>
         </Sheet>
