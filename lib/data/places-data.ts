@@ -229,9 +229,9 @@ function createDate(year: number, month: number, day: number) {
 export const featuredEvents: EventItem[] = [
   {
     id: "river-festival-2026",
-    title: "Bocaue River Festival 2026",
+    title: "The Iconic Pagoda Festival 2026",
     description:
-      "Experience the grandest fluvial parade yet! The 2026 Bocaue River Festival celebrates centuries of faith and tradition with spectacular boat processions, cultural performances, street dancing, fireworks, and a week-long carnival along the historic Bocaue River. This year's theme honors the resilience and unity of the Bocaueño community.",
+      "Witness the grandeur of Bocaue's most beloved tradition! The legendary Pagoda sa Wawa fluvial parade returns this July with centuries-old spiritual ceremonies, the iconic towering bamboo-and-cloth pagoda, spectacular boat processions, cultural performances, and fireworks lighting up the historic Bocaue River. Join thousands of devotees and visitors as we celebrate faith, tradition, and community resilience.",
     date: createDate(2026, 7, 3),
     location: "Bocaue River & Town Center",
     image: asset("/images/places/river-festival.jpg"),

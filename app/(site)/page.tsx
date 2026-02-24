@@ -1,17 +1,23 @@
 import dynamic from "next/dynamic"
 import { HeroSection } from "@/components/sections/hero-section"
+import { TourismTaglineSection } from "@/components/sections/tourism-tagline-section"
+import { FeaturedSpotlight } from "@/components/sections/featured-spotlight"
 
 // Lazy-load below-the-fold sections to reduce initial bundle size
+const AttractionsSection = dynamic(
+  () => import("@/components/sections/attractions-section").then((m) => m.AttractionsSection),
+  { loading: () => <SectionSkeleton /> }
+)
+const CulinarySection = dynamic(
+  () => import("@/components/sections/culinary-section").then((m) => m.CulinarySection),
+  { loading: () => <SectionSkeleton /> }
+)
 const HistoryArtSection = dynamic(
   () => import("@/components/sections/history-art-section").then((m) => m.HistoryArtSection),
   { loading: () => <SectionSkeleton /> }
 )
 const PlacesCarousel = dynamic(
   () => import("@/components/sections/places-carousel").then((m) => m.PlacesCarousel),
-  { loading: () => <SectionSkeleton /> }
-)
-const AttractionsSection = dynamic(
-  () => import("@/components/sections/attractions-section").then((m) => m.AttractionsSection),
   { loading: () => <SectionSkeleton /> }
 )
 const NewsSection = dynamic(
@@ -40,10 +46,30 @@ function SectionSkeleton() {
 export default function Home() {
   return (
     <main>
+      {/* 1. Hero — Pagoda Festival as frontrunner */}
       <HeroSection />
-      <HistoryArtSection />
-      <PlacesCarousel />
+
+      {/* 2. MHACTO Bocaue Tourism Tagline & Stats */}
+      <TourismTaglineSection />
+
+      {/* 3. Featured Tourism Wonders */}
       <AttractionsSection />
+
+      {/* 4. Featured Spotlight — Pagoda Festival 2026 */}
+      <section className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+        <FeaturedSpotlight />
+      </section>
+
+      {/* 5. Featured Culinary Delicacies */}
+      <CulinarySection />
+
+      {/* 6. Places Carousel */}
+      <PlacesCarousel />
+
+      {/* 7. History & Art */}
+      <HistoryArtSection />
+
+      {/* 8. News */}
       <NewsSection />
     </main>
   )

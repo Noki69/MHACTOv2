@@ -9,10 +9,20 @@ import { asset } from "@/lib/utils"
 
 const heroSlides = [
   {
+    src: asset("/images/places/river-festival.jpg"),
+    alt: "Pagoda sa Wawa — Bocaue River Festival",
+    subtitle: "Bocaue's Grandest Tradition",
+    title: "The Iconic",
+    highlight: "Pagoda Festival",
+    description:
+      "Experience the Pagoda sa Wawa \u2014 a centuries-old fluvial celebration of faith, color, and community spirit on the historic Bocaue River.",
+    href: "/places/bocaue-river-festival",
+  },
+  {
     src: asset("/images/heroes/hero-bocaue.jpg"),
     alt: "Scenic view of Bocaue, Bulacan",
     subtitle: "Bocaue, Bulacan",
-    title: "Explore The River ",
+    title: "Explore The River",
     highlight: "Town Wonders",
     description:
       "Where rich heritage meets vibrant culture \u2014 explore centuries of tradition, lively festivals, and the warm hospitality of Bocaue.",
@@ -27,16 +37,6 @@ const heroSlides = [
     description:
       "A centuries-old landmark standing as a testament to Bocaue\u2019s enduring faith and Spanish colonial heritage.",
     href: "/places/st-martin-church",
-  },
-  {
-    src: asset("/images/places/river-festival.jpg"),
-    alt: "Bocaue River Festival",
-    subtitle: "Festivals & Traditions",
-    title: "The Grand",
-    highlight: "River Festival",
-    description:
-      "Experience the vibrant Bocaue River Festival \u2014 a spectacular celebration of faith, culture, and community on the water.",
-    href: "/places/bocaue-river-festival",
   },
   {
     src: asset("/images/places/philippine-arena.jpg"),
@@ -145,6 +145,11 @@ export function HeroSection() {
           className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center"
           style={{ opacity: textOpacity, transform: `translateY(${textY}px)` }}
         >
+          {/* MHACTO Bocaue Tagline — always visible */}
+          <p className="mb-4 text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] text-white/60 border border-white/20 rounded-full px-4 py-1 backdrop-blur-sm bg-black/20">
+            MHACTO Bocaue &mdash; Heritage, Arts, Culture &amp; Tourism
+          </p>
+
           <div key={currentSlide} className="flex flex-col items-center animate-hero-text-in">
             <p className="mb-3 text-xs sm:text-sm font-semibold uppercase tracking-widest text-secondary">
               {slide.subtitle}
